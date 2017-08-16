@@ -7,7 +7,8 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button
+  Button,
+  WebView
 } from 'react-native';
 import { WebBrowser } from 'expo';
 
@@ -34,7 +35,14 @@ export default class HomeScreen extends React.Component {
   renderCard = card => {
     return (
       <View style={styles.card}>
-        <Text style={styles.text}>{card}</Text>
+      <Text>{card}</Text>
+      <WebView
+            source={{uri: 'https://github.com/facebook/react-native'}}
+            style={{flex: 1}}
+            startInLoadingState
+            scalesPageToFit
+            javaScriptEnabled
+          />
       </View>
     );
   };
