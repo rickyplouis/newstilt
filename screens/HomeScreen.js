@@ -7,11 +7,12 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Button
 } from 'react-native';
 import { WebBrowser } from 'expo';
 
-import SwipeCards from '../components/SwipeCards'
-
+//import { SwipeCards} from '../components/SwipeCards'
+import Swiper from "react-native-deck-swiper";
 import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
@@ -19,106 +20,82 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      cards: ["First Article", "Second Article", "Third Article"],
+      swipedAllCards: false,
+      swipeDirection: "",
+      isSwipingBack: false,
+      cardIndex: 0
+    };
+  }
+
+  renderCard = card => {
+    return (
+      <View style={styles.card}>
+        <Text style={styles.text}>{card}</Text>
+      </View>
+    );
+  };
+
+  onSwipedAllCards = () => {
+    this.setState({
+      swipedAllCards: true
+    });
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
-          </View>
 
-          <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
+      <Swiper
+        ref={swiper => {
+          this.swiper = swiper;
+        }}
+        onSwiped={this.onSwiped}
+        cards={this.state.cards}
+        cardIndex={this.state.cardIndex}
+        cardVerticalMargin={80}
+        renderCard={this.renderCard}
+        onSwipedAll={this.onSwipedAllCards}
+        showSecondCard={false}
+        overlayLabels={{
+          bottom: {
+            title: 'BLEAH',
+            swipeColor: '#9262C2',
+            backgroundOpacity: '0.75',
+            fontColor: '#FFF'
+          },
+          left: {
+            title: 'NOPE',
+            swipeColor: '#FF6C6C',
+            backgroundOpacity: '0.75',
+            fontColor: '#FFF'
+          },
+          right: {
+            title: 'LIKE',
+            swipeColor: '#4CCC93',
+            backgroundOpacity: '0.75',
+            fontColor: '#FFF'
+          },
+          top: {
+            title: 'SUPER LIKE',
+            swipeColor: '#4EB8B7',
+            backgroundOpacity: '0.75',
+            fontColor: '#FFF'
+          }
+        }}
+        animateOverlayLabelsOpacity
+        animateCardOpacity
+      >
 
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
-            <View
-              style={[
-                styles.codeHighlightContainer,
-                styles.homeScreenFilename,
-              ]}>
-              <MonoText style={styles.codeHighlightText}>
-                screens/HomeScreen.js
-              </MonoText>
-            </View>
-
-            <SwipeCards style={{flex: 1}} />
-
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically re run.
-            </Text>
-          </View>
-
-          <View style={styles.helpContainer}>
-            <TouchableOpacity
-              onPress={this._handleHelpPress}
-              style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>
-                Help, it didn’t automatically reload!
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>
-            This is a tab bar. You can edit it in:
-          </Text>
-
-          <View
-            style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>
-              navigation/MainTabNavigator.js
-            </MonoText>
-          </View>
-        </View>
+      </Swiper>
       </View>
     );
   }
 
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
 
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use
-          useful development tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
-  }
-
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/development-mode'
-    );
-  };
-
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-    );
-  };
 }
 
 const styles = StyleSheet.create({
@@ -208,4 +185,26 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  box1: {
+    flex: 1
+  },
+  card: {
+    flex: 1,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: "#E8E8E8",
+    justifyContent: "center",
+    backgroundColor: "white"
+  },
+  text: {
+    textAlign: "center",
+    fontSize: 50,
+    backgroundColor: "transparent"
+  },
+  done: {
+    textAlign: "center",
+    fontSize: 30,
+    color: "white",
+    backgroundColor: "transparent"
+  }
 });

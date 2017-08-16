@@ -1,87 +1,135 @@
-// SwipeCards.js
-'use strict';
+import React from "react";
+import Swiper from "react-native-deck-swiper";
+import { StyleSheet, View, Text, Image, Button } from "react-native";
 
-import React, { Component } from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
-
-import SwipeCards from 'react-native-swipe-cards';
-
-let Card = React.createClass({
-  render() {
-    return (
-      <View style={[styles.card, {backgroundColor: this.props.backgroundColor}]}>
-        <Text>{this.props.text}</Text>
-      </View>
-    )
-  }
-})
-
-class NoMoreCards extends Component {
+export class SwipeCards extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      cards: ["1", "2", "3"],
+      swipedAllCards: false,
+      swipeDirection: "",
+      isSwipingBack: false,
+      cardIndex: 0
+    };
   }
 
-  render() {
+  const styles = StyleSheet.create({
+    box1: {
+      flex: 1
+    },
+    container: {
+      flex: 1,
+      backgroundColor: "#F5FCFF"
+    },
+    card: {
+      flex: 1,
+      borderRadius: 4,
+      borderWidth: 2,
+      borderColor: "#E8E8E8",
+      justifyContent: "center",
+      backgroundColor: "white"
+    },
+    text: {
+      textAlign: "center",
+      fontSize: 50,
+      backgroundColor: "transparent"
+    },
+    done: {
+      textAlign: "center",
+      fontSize: 30,
+      color: "white",
+      backgroundColor: "transparent"
+    }
+  });
+
+
+  renderCard = card => {
     return (
-      <View>
-        <Text style={styles.noMoreCardsText}>No more cards</Text>
+      <View style={styles.card}>
+        <Text style={styles.text}>{card}</Text>
       </View>
-    )
+    );
+  };
+
+  onSwipedAllCards = () => {
+    this.setState({
+      swipedAllCards: true
+    });
+  };
+
+  swipeBack = () => {
+    if (!this.state.isSwipingBack) {
+      this.setIsSwipingBack(true, () => {
+        this.swiper.swipeBack(() => {
+          this.setIsSwipingBack(false);
+        });
+      });
+    }
+  };
+
+  setIsSwipingBack = (isSwipingBack, cb) => {
+    this.setState(
+      {
+        isSwipingBack: isSwipingBack
+      },
+      cb
+    );
+  };
+
+  jumpTo = () => {
+    this.swiper.jumpToCardIndex(2);
+  };
+
+  render() {
+
+
+    return (
+      <View style={styles.container}>
+        <Swiper
+          ref={swiper => {
+            this.swiper = swiper;
+          }}
+          onSwiped={this.onSwiped}
+          cards={this.state.cards}
+          cardIndex={this.state.cardIndex}
+          cardVerticalMargin={80}
+          renderCard={this.renderCard}
+          onSwipedAll={this.onSwipedAllCards}
+          showSecondCard={false}
+          overlayLabels={{
+            bottom: {
+              title: 'BLEAH',
+              swipeColor: '#9262C2',
+              backgroundOpacity: '0.75',
+              fontColor: '#FFF'
+            },
+            left: {
+              title: 'NOPE',
+              swipeColor: '#FF6C6C',
+              backgroundOpacity: '0.75',
+              fontColor: '#FFF'
+            },
+            right: {
+              title: 'LIKE',
+              swipeColor: '#4CCC93',
+              backgroundOpacity: '0.75',
+              fontColor: '#FFF'
+            },
+            top: {
+              title: 'SUPER LIKE',
+              swipeColor: '#4EB8B7',
+              backgroundOpacity: '0.75',
+              fontColor: '#FFF'
+            }
+          }}
+          animateOverlayLabelsOpacity
+          animateCardOpacity
+        >
+          <Button onPress={this.swipeBack} title="Swipe Back" />
+          <Button onPress={this.jumpTo} title="Jump to last index" />
+        </Swiper>
+      </View >
+    );
   }
 }
-
-const Cards = [
-  {text: 'Tomato', backgroundColor: 'red'},
-  {text: 'Aubergine', backgroundColor: 'purple'},
-  {text: 'Courgette', backgroundColor: 'green'},
-  {text: 'Blueberry', backgroundColor: 'blue'},
-  {text: 'Umm...', backgroundColor: 'cyan'},
-  {text: 'orange', backgroundColor: 'orange'},
-]
-
-export default React.createClass({
-  getInitialState() {
-    return {
-      cards: Cards
-    }
-  },
-  handleYup (card) {
-    console.log(`Yup for ${card.text}`)
-  },
-  handleNope (card) {
-    console.log(`Nope for ${card.text}`)
-  },
-  handleMaybe (card) {
-    console.log(`Maybe for ${card.text}`)
-  },
-  render() {
-    // If you want a stack of cards instead of one-per-one view, activate stack mode
-    // stack={true}
-    return (
-      <SwipeCards
-        cards={this.state.cards}
-
-        renderCard={(cardData) => <Card {...cardData} />}
-        renderNoMoreCards={() => <NoMoreCards />}
-
-        handleYup={this.handleYup}
-        handleNope={this.handleNope}
-        handleMaybe={this.handleMaybe}
-        hasMaybeAction
-      />
-    )
-  }
-})
-
-const styles = StyleSheet.create({
-  card: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 300,
-    height: 300,
-  },
-  noMoreCardsText: {
-    fontSize: 22,
-  }
-})
