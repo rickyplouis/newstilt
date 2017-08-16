@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { WebBrowser } from 'expo';
 
+import SwipeCards from '../components/SwipeCards'
+
 import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
@@ -48,6 +50,8 @@ export default class HomeScreen extends React.Component {
                 screens/HomeScreen.js
               </MonoText>
             </View>
+
+            <SwipeCards style={{flex: 1}} />
 
             <Text style={styles.getStartedText}>
               Change this text and your app will automatically re run.
