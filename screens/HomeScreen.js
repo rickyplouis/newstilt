@@ -14,6 +14,7 @@ import { WebBrowser } from 'expo';
 
 //import { SwipeCards} from '../components/SwipeCards'
 import Swiper from "react-native-deck-swiper";
+import DeckSwiperExample from '../components/DeckSwiper'
 import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
@@ -36,13 +37,6 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.card}>
       <Text>{card}</Text>
-      <WebView
-            source={{uri: 'https://github.com/facebook/react-native'}}
-            style={{flex: 1}}
-            startInLoadingState
-            scalesPageToFit
-            javaScriptEnabled
-          />
       </View>
     );
   };
@@ -56,49 +50,7 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-
-      <Swiper
-        ref={swiper => {
-          this.swiper = swiper;
-        }}
-        onSwiped={this.onSwiped}
-        cards={this.state.cards}
-        cardIndex={this.state.cardIndex}
-        cardVerticalMargin={80}
-        renderCard={this.renderCard}
-        onSwipedAll={this.onSwipedAllCards}
-        showSecondCard={false}
-        overlayLabels={{
-          bottom: {
-            title: 'BLEAH',
-            swipeColor: '#9262C2',
-            backgroundOpacity: '0.75',
-            fontColor: '#FFF'
-          },
-          left: {
-            title: 'NOPE',
-            swipeColor: '#FF6C6C',
-            backgroundOpacity: '0.75',
-            fontColor: '#FFF'
-          },
-          right: {
-            title: 'LIKE',
-            swipeColor: '#4CCC93',
-            backgroundOpacity: '0.75',
-            fontColor: '#FFF'
-          },
-          top: {
-            title: 'SUPER LIKE',
-            swipeColor: '#4EB8B7',
-            backgroundOpacity: '0.75',
-            fontColor: '#FFF'
-          }
-        }}
-        animateOverlayLabelsOpacity
-        animateCardOpacity
-      >
-
-      </Swiper>
+        <DeckSwiperExample/>
       </View>
     );
   }

@@ -8,11 +8,15 @@ import Colors from '../constants/Colors';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import AccountScreen from '../screens/AccountScreen';
 
 export default TabNavigator(
   {
     Home: {
       screen: HomeScreen,
+    },
+    Account: {
+      screen: AccountScreen,
     },
     Links: {
       screen: LinksScreen,
@@ -31,6 +35,11 @@ export default TabNavigator(
             iconName = Platform.OS === 'ios'
               ? `ios-information-circle${focused ? '' : '-outline'}`
               : 'md-information-circle';
+            break;
+          case 'Account':
+            iconName = Platform.OS === 'ios'
+              ? `ios-person${focused ? '' : '-outline'}`
+              : `md-person`
             break;
           case 'Links':
             iconName = Platform.OS === 'ios'
