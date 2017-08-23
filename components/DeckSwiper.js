@@ -13,7 +13,7 @@ const cards = [
     image: require('../assets/images/robot-prod.png')
   }
 ];
-export default class DeckSwiperExample extends Component {
+export default class DeckSwiperComponent extends Component {
   render() {
     return (
       <Container>

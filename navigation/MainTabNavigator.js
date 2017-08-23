@@ -9,6 +9,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import AccountScreen from '../screens/AccountScreen';
+import FeedScreen from '../screens/FeedScreen';
 
 export default TabNavigator(
   {
@@ -17,6 +18,9 @@ export default TabNavigator(
     },
     Account: {
       screen: AccountScreen,
+    },
+    Feed: {
+      screen: FeedScreen,
     },
     Links: {
       screen: LinksScreen,
@@ -33,13 +37,18 @@ export default TabNavigator(
         switch (routeName) {
           case 'Home':
             iconName = Platform.OS === 'ios'
-              ? `ios-information-circle${focused ? '' : '-outline'}`
-              : 'md-information-circle';
+              ? `ios-home${focused ? '' : '-outline'}`
+              : 'md-home';
             break;
           case 'Account':
             iconName = Platform.OS === 'ios'
               ? `ios-person${focused ? '' : '-outline'}`
               : `md-person`
+            break;
+          case 'Feed':
+            iconName = Platform.OS === 'ios'
+              ? `ios-paper${focused ? '' : '-outline'}`
+              : `md-paper`
             break;
           case 'Links':
             iconName = Platform.OS === 'ios'

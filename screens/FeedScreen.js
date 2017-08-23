@@ -1,16 +1,15 @@
 import React from 'react';
 import {ScrollView, StyleSheet, Text} from 'react-native'
-import CardList from '../components/CardList'
 
-export default class AccountScreen extends React.Component {
+export default class FeedScreen extends React.Component {
   static navigationOptions = {
-    title: 'Account'
+    title: 'Feed'
   };
 
   render() {
     return (
       <ScrollView style={styles.container}>
-        <CardList></CardList>
+        <Text>Feed Page</Text>
       </ScrollView>
     );
   }

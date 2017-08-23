@@ -14,7 +14,7 @@ import { WebBrowser } from 'expo';
 
 //import { SwipeCards} from '../components/SwipeCards'
 import Swiper from "react-native-deck-swiper";
-import DeckSwiperExample from '../components/DeckSwiper'
+import DeckSwiperComponent from '../components/DeckSwiper'
 import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
@@ -50,7 +50,7 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <DeckSwiperExample/>
+        <DeckSwiperComponent/>
       </View>
     );
   }
