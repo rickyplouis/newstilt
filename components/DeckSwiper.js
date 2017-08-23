@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
-import { Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon } from 'native-base';
+import { Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Right, Body, Icon, Button } from 'native-base';
 const cards = [
   {
     text: 'Card One',
@@ -36,8 +36,18 @@ export default class DeckSwiperComponent extends Component {
                   <Image style={{ height: 300, flex: 1 }} source={item.image} />
                 </CardItem>
                 <CardItem>
-                  <Icon name="heart" style={{ color: '#ED4A6A' }} />
-                  <Text>{item.name}</Text>
+                  <Left>
+                    <Button iconLeft>
+                      <Icon name="heart" style={{ color: '#ED4A6A' }} />
+                      <Text>{item.name}</Text>
+                    </Button>
+                  </Left>
+                  <Right>
+                    <Button iconLeft>
+                      <Icon name="heart" style={{ color: '#ED4A6A' }} />
+                      <Text>{item.name}</Text>                      
+                    </Button>
+                  </Right>
                 </CardItem>
               </Card>
             }
