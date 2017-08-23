@@ -14,11 +14,11 @@ export default TabNavigator(
     Home: {
       screen: HomeScreen,
     },
-    Account: {
-      screen: AccountScreen,
-    },
     Feed: {
       screen: FeedScreen,
+    },
+    Account: {
+      screen: AccountScreen,
     },
   },
   {

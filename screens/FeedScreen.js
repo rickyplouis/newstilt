@@ -1,5 +1,6 @@
 import React from 'react';
 import {ScrollView, StyleSheet, Text} from 'react-native'
+import FeedList from '../components/FeedList'
 
 export default class FeedScreen extends React.Component {
   static navigationOptions = {
@@ -8,9 +9,7 @@ export default class FeedScreen extends React.Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
-        <Text>Feed Page</Text>
-      </ScrollView>
+      <FeedList></FeedList>
     );
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {ScrollView, StyleSheet, Text} from 'react-native'
-import CardList from '../components/CardList'
+import AccountList from '../components/AccountList'
 
 export default class AccountScreen extends React.Component {
   static navigationOptions = {
@@ -10,7 +10,7 @@ export default class AccountScreen extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <CardList></CardList>
+        <AccountList></AccountList>
       </ScrollView>
     );
   }

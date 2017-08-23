@@ -11,7 +11,7 @@ const IconName = {
   Excluded: usingIOS() === 'ios' ? `ios-close-circle` : `md-close-circle`
 }
 
-export default class CardList extends Component {
+export default class AccountList extends Component {
 
   constructor(props){
     super(props)
