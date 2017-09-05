@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
-import { Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Right, Body, Icon, Button } from 'native-base';
+import { Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon } from 'native-base';
 const cards = [
   {
     text: 'Card One',
     name: 'One',
-    image: require('../assets/images/robot-dev.png'),
+    image: require('../assets/images/robot-prod.png')
   },
   {
     text: 'Card Two',
     name: 'Two',
-    image: require('../assets/images/robot-prod.png')
+    image: require('../assets/images/robot-dev.png')
   }
 ];
-export default class DeckSwiperComponent extends Component {
+export default class SwiperComponent extends React.Component {
   render() {
     return (
       <Container>
@@ -36,18 +36,8 @@ export default class DeckSwiperComponent extends Component {
                   <Image style={{ height: 300, flex: 1 }} source={item.image} />
                 </CardItem>
                 <CardItem>
-                  <Left>
-                    <Button iconLeft>
-                      <Icon name="heart" style={{ color: '#ED4A6A' }} />
-                      <Text>{item.name}</Text>
-                    </Button>
-                  </Left>
-                  <Right>
-                    <Button iconLeft>
-                      <Icon name="heart" style={{ color: '#ED4A6A' }} />
-                      <Text>{item.name}</Text>                      
-                    </Button>
-                  </Right>
+                  <Icon name="heart" style={{ color: '#ED4A6A' }} />
+                  <Text>{item.name}</Text>
                 </CardItem>
               </Card>
             }

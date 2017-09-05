@@ -3,13 +3,10 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
 } from 'react-native';
 import { WebBrowser } from 'expo';
 
-//import { SwipeCards} from '../components/SwipeCards'
-import Swiper from "react-native-deck-swiper";
-import DeckSwiperComponent from '../components/DeckSwiper'
+import SwiperComponent from '../components/SwiperComponent'
 import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
@@ -28,24 +25,11 @@ export default class HomeScreen extends React.Component {
     };
   }
 
-  renderCard = card => {
-    return (
-      <View style={styles.card}>
-      <Text>{card}</Text>
-      </View>
-    );
-  };
-
-  onSwipedAllCards = () => {
-    this.setState({
-      swipedAllCards: true
-    });
-  };
 
   render() {
     return (
       <View style={styles.container}>
-        <DeckSwiperComponent/>
+        <SwiperComponent/>
       </View>
     );
   }
