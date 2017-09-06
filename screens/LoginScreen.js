@@ -17,14 +17,52 @@ export default class LoginScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      text: "Login"
+      text: "Login",
+      username: "",
+      password: ""
     }
   }
 
+  login = () => {
+
+
+    const values = {
+      "email": this.state.username,
+      "password": this.state.password
+    }
+
+    var postOptions = {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      //make sure to serialize your JSON body
+      body: JSON.stringify(values)
+    }
+
+    fetch( 'https://newstiltapi.com/login', postOptions).then( (response) => {
+      if (response.status == 200){
+        response.json().then( (val) => {
+          const user = val.user;
+          const { navigate } = this.props.navigation;
+          navigate('Home');
+          console.log('user is', user);
+        })
+      } else {
+        response.json().then( (val) => {
+          const err = val.description[0];
+          console.log('err', err);
+        })
+      }
+    }).catch( (error) => {
+      console.log('error', error);
+    })
+  }
 
 
   render(){
-    const { navigate } = this.props.navigation;
+
     return (
       <View style={styles.container}>
           <Container>
@@ -32,18 +70,15 @@ export default class LoginScreen extends React.Component {
               <Form>
                 <Item floatingLabel>
                   <Label>Username</Label>
-                  <Input />
+                  <Input autoCapitalize={'none'} onChangeText={(username) => this.setState({username})} />
                 </Item>
                 <Item floatingLabel last>
                   <Label>Password</Label>
-                  <Input />
+                  <Input autoCapitalize={'none'} onChangeText={(password) => this.setState({password})} />
                 </Item>
               </Form>
               <Button block
-                onPress={() => {
-                  console.log('pressed');
-                  navigate('Home')
-                }}
+                onPress={this.login}
                 >
                 <Text>{this.state.text}</Text>
               </Button>
