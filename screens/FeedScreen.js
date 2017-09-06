@@ -4,7 +4,7 @@ import FeedList from '../components/FeedList'
 
 export default class FeedScreen extends React.Component {
   static navigationOptions = {
-    title: 'Feed'
+    header: null,
   };
 
   render() {

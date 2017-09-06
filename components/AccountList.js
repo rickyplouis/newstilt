@@ -43,9 +43,7 @@ export default class AccountList extends Component {
 
   logValue (val) {
     console.log('val is' + val);
-
   }
-
 
   render() {
     return (

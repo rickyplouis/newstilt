@@ -7,9 +7,7 @@ import {
 
 import { StackNavigator } from 'react-navigation'
 import HomeScreen from './HomeScreen'
-import LoginForm from '../components/LoginForm'
-import { Button } from 'native-base'
-
+import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
 export default class LoginScreen extends React.Component {
 
   static navigationOptions = {
@@ -19,7 +17,7 @@ export default class LoginScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      text: "Hello from login"
+      text: "Login"
     }
   }
 
@@ -29,15 +27,28 @@ export default class LoginScreen extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <LoginForm/>
-          <Button
-            onPress={() => {
-              console.log('pressed');
-              navigate('Home')
-            }}
-            >
-            <Text>{this.state.text}</Text>
-          </Button>
+          <Container>
+            <Content>
+              <Form>
+                <Item floatingLabel>
+                  <Label>Username</Label>
+                  <Input />
+                </Item>
+                <Item floatingLabel last>
+                  <Label>Password</Label>
+                  <Input />
+                </Item>
+              </Form>
+              <Button block
+                onPress={() => {
+                  console.log('pressed');
+                  navigate('Home')
+                }}
+                >
+                <Text>{this.state.text}</Text>
+              </Button>
+            </Content>
+          </Container>
       </View>
     )
   }

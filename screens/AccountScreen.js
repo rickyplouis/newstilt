@@ -1,17 +1,19 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text} from 'react-native'
+import {View, StyleSheet, Text} from 'react-native'
 import AccountList from '../components/AccountList'
 
 export default class AccountScreen extends React.Component {
+
   static navigationOptions = {
-    title: 'Account'
+    header: null,
   };
+
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         <AccountList></AccountList>
-      </ScrollView>
+      </View>
     );
   }
 }
