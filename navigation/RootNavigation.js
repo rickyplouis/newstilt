@@ -3,13 +3,17 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
-import LoginScreen  from '../screens/LoginScreen'
+import LoginScreen  from '../screens/LoginScreen';
+import SignupScreen from '../screens/SignupScreen';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
 const RootStackNavigator = StackNavigator(
   {
     Login: {
       screen: LoginScreen
+    },
+    Signup: {
+      screen: SignupScreen
     },
     Main: {
       screen: MainTabNavigator,

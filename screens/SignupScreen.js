@@ -19,10 +19,9 @@ export default class LoginScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      text: "Login",
       username: "",
-      password: "",
-      usernameInvalid: false,
-      userMessage: ""
+      password: ""
     }
   }
 
@@ -48,20 +47,13 @@ export default class LoginScreen extends React.Component {
       if (response.status == 200){
         response.json().then( (val) => {
           const user = val.user;
-//          const { navigate } = this.props.navigation;
-          this.props.navigation.navigate('Home');
+          const { navigate } = this.props.navigation;
+          navigate('Home');
           console.log('user is', user);
         })
       } else {
         response.json().then( (val) => {
           const err = val.description[0];
-          if (err == 'no user found'){
-            this.setState({
-              username: "",
-              usernameInvalid: true,
-              userMessage: "Username does not exist."
-            })
-          }
           console.log('err', err);
         })
       }
@@ -79,9 +71,9 @@ export default class LoginScreen extends React.Component {
             <Container>
               <Content>
                 <Form>
-                  <Item stackedLabel error={this.state.usernameInvalid}>
+                  <Item floatingLabel>
                     <Label>Username</Label>
-                    <Input placeholder={this.state.userMessage} value={this.state.username} autoCapitalize={'none'} onChangeText={(userInput) => this.setState({"username": userInput , "usernameInvalid": false})} />
+                    <Input autoCapitalize={'none'} onChangeText={(username) => this.setState({username})} />
                   </Item>
                   <Item floatingLabel last>
                     <Label>Password</Label>
@@ -92,7 +84,7 @@ export default class LoginScreen extends React.Component {
                   onPress={this.login}
                   disabled={this.state.username.length == 0 || this.state.password.length == 0}
                   >
-                  <Text>Login</Text>
+                  <Text>{this.state.text}</Text>
                 </Button>
                 <Button transparent primary>
                   <Text>Don't have an account? Register here.</Text>
