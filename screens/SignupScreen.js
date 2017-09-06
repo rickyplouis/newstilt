@@ -13,13 +13,12 @@ import { Root } from "native-base";
 export default class LoginScreen extends React.Component {
 
   static navigationOptions = {
-    title: 'Login'
+    title: 'Signup'
   };
 
   constructor(props){
     super(props);
     this.state = {
-      text: "Login",
       username: "",
       password: ""
     }
@@ -79,15 +78,16 @@ export default class LoginScreen extends React.Component {
                     <Label>Password</Label>
                     <Input autoCapitalize={'none'} onChangeText={(password) => this.setState({password})} />
                   </Item>
+                  <Item floatingLabel last>
+                    <Label>Confirm Password</Label>
+                    <Input autoCapitalize={'none'} onChangeText={(password) => this.setState({password})} />
+                  </Item>
                 </Form>
                 <Button block
                   onPress={this.login}
                   disabled={this.state.username.length == 0 || this.state.password.length == 0}
                   >
-                  <Text>{this.state.text}</Text>
-                </Button>
-                <Button transparent primary>
-                  <Text>Don't have an account? Register here.</Text>
+                  <Text>Signup</Text>
                 </Button>
               </Content>
             </Container>
