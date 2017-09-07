@@ -10,7 +10,7 @@ import HomeScreen from './HomeScreen'
 import SignupScreen from './SignupScreen'
 
 import Account from '../components/Account'
-import AppWrapper from '../components/AppWrapper'
+import AppContainer from '../components/AppContainer'
 
 import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
 
@@ -95,7 +95,7 @@ export default class LoginScreen extends React.Component {
   render(){
 
     return (
-      <AppWrapper>
+      <AppContainer>
             <Container>
               <Content>
                 <Form>
@@ -119,7 +119,7 @@ export default class LoginScreen extends React.Component {
                 </Button>
               </Content>
             </Container>
-      </AppWrapper>
+      </AppContainer>
 
     )
   }

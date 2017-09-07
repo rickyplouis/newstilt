@@ -1,7 +1,7 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import Counter from './Counter';
 import * as counterActions from '../actions/counterActions';
 import { connect } from 'react-redux';

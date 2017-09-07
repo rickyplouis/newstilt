@@ -2,7 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Text} from 'react-native'
 import AccountList from '../components/AccountList'
 import Account from '../components/Account';
-import AppWrapper from '../components/AppWrapper'
+import AppContainer from '../components/AppContainer'
 
 export default class AccountScreen extends React.Component {
 
@@ -15,19 +15,16 @@ export default class AccountScreen extends React.Component {
     this.state = {
       text: 'Hello World',
     }
-
-    console.log('AccountScreen state is', this.state);
-    console.log('accountProps', this.props);
-
   }
 
 
   render() {
+    console.log('accountProps', this.props);
     return (
-      <AppWrapper>
+      <AppContainer>
         <Account/>
         <AccountList></AccountList>
-      </AppWrapper>
+      </AppContainer>
     );
   }
 }
