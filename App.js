@@ -1,13 +1,20 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, Text } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
 
 export default class App extends React.Component {
-  state = {
-    assetsAreLoaded: false,
-  };
+
+
+  constructor(props){
+    super(props);
+    this.state = {
+      assetsAreLoaded: false,
+      text: 'Hello World',
+      user: {}
+    }
+  }
 
   componentWillMount() {
     this._loadAssetsAsync();

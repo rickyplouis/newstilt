@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native'
 import AccountList from '../components/AccountList'
+import Account from '../components/Account';
+import AppWrapper from '../components/AppWrapper'
 
 export default class AccountScreen extends React.Component {
 
@@ -8,12 +10,24 @@ export default class AccountScreen extends React.Component {
     header: null,
   };
 
+  constructor(props){
+    super(props);
+    this.state = {
+      text: 'Hello World',
+    }
+
+    console.log('AccountScreen state is', this.state);
+    console.log('accountProps', this.props);
+
+  }
+
 
   render() {
     return (
-      <View style={styles.container}>
+      <AppWrapper>
+        <Account/>
         <AccountList></AccountList>
-      </View>
+      </AppWrapper>
     );
   }
 }

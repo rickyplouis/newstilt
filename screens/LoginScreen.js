@@ -9,8 +9,10 @@ import { StackNavigator } from 'react-navigation'
 import HomeScreen from './HomeScreen'
 import SignupScreen from './SignupScreen'
 
+import Account from '../components/Account'
+import AppWrapper from '../components/AppWrapper'
+
 import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
-import { Root } from "native-base";
 
 export default class LoginScreen extends React.Component {
 
@@ -26,8 +28,10 @@ export default class LoginScreen extends React.Component {
       usernameInvalid: false,
       passwordInvalid: false,
       userMessage: "",
-      passMessage: ""
+      passMessage: "",
+      user: {}
     }
+    console.log('LoginScreen state is ', this.state);
   }
 
   login = () => {
@@ -51,7 +55,11 @@ export default class LoginScreen extends React.Component {
       if (response.status == 200){
         response.json().then( (val) => {
           const user = val.user;
+          const { navigate } = this.props.navigation.navigate;
           this.props.navigation.navigate('Home');
+          this.setState({
+            user
+          })
           console.log('user is', user);
         })
       } else {
@@ -87,13 +95,12 @@ export default class LoginScreen extends React.Component {
   render(){
 
     return (
-      <Root>
-        <View style={styles.container}>
+      <AppWrapper>
             <Container>
               <Content>
                 <Form>
                   <Item stackedLabel error={this.state.usernameInvalid}>
-                    <Label>Username</Label>
+                    <Label>Username: + {this.props.user}</Label>
                     <Input placeholder={this.state.userMessage} value={this.state.username} autoCapitalize={'none'} onChangeText={(userInput) => this.setState({"username": userInput , "usernameInvalid": false})} />
                   </Item>
                   <Item stackedLabel error={this.state.passwordInvalid} last>
@@ -112,8 +119,8 @@ export default class LoginScreen extends React.Component {
                 </Button>
               </Content>
             </Container>
-        </View>
-      </Root>
+      </AppWrapper>
+
     )
   }
 }
