@@ -9,7 +9,6 @@ import { StackNavigator } from 'react-navigation'
 import HomeScreen from './HomeScreen'
 import SignupScreen from './SignupScreen'
 
-import Account from '../components/Account'
 import AppContainer from '../components/AppContainer'
 
 import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
@@ -29,9 +28,7 @@ export default class LoginScreen extends React.Component {
       passwordInvalid: false,
       userMessage: "",
       passMessage: "",
-      user: {}
     }
-    console.log('LoginScreen state is ', this.state);
   }
 
   login = () => {
@@ -93,7 +90,6 @@ export default class LoginScreen extends React.Component {
 
 
   render(){
-
     return (
       <AppContainer>
             <Container>

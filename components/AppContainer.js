@@ -1,3 +1,5 @@
+'use strict'
+
 import React from 'react'
 import {
   Text,
@@ -6,14 +8,12 @@ import {
 } from 'react-native'
 
 import CounterApp from './CounterApp';
+import UserApp from './UserApp';
 
 export default class AppContainer extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {
-      user: 'Some default user'
-    }
   }
 
 
@@ -22,6 +22,7 @@ export default class AppContainer extends React.Component {
       <View
         style={styles.container}
         >
+        <UserApp/>
         <CounterApp/>
         {this.props.children}
       </View>

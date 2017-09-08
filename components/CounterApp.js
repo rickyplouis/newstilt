@@ -6,9 +6,6 @@ import Counter from './Counter';
 import * as counterActions from '../actions/counterActions';
 import { connect } from 'react-redux';
 
-// @connect(state => ({
-//   state: state.counter
-// }))
 class CounterApp extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +13,7 @@ class CounterApp extends Component {
 
   render() {
     const { state, actions } = this.props;
+    console.log('CounterApp props', this.props);
     return (
       <Counter
         counter={state.count}
