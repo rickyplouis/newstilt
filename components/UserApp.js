@@ -1,8 +1,7 @@
 'use strict';
 
-import { Text } from 'react-native'
+import { Text, View } from 'react-native'
 import React, {Component} from 'react';
-import { bindActionCreators } from 'redux';
 import { Button } from 'native-base';
 
 //Redux Related Imports
@@ -12,49 +11,29 @@ import { setUser } from '../actions/userActions'
 class UserApp extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      inputValue: 'Basic input'
-    }
-  }
-
-  setUser = () => {
-    if (this.state.inputValue === '') return;
-
-    this.setState({
-      inputValue: this.state.inputValue += 'AY'
-    })
-    this.props.dispatchSetUser({
-      email: this.state.inputValue
-    })
   }
 
   render() {
-    const { state, actions } = this.props;
-    console.log('UserApp props', this.props);
     return (
-      <Button onPress={this.setUser}>
+      <View>
         <Text>
-          {this.state.inputValue}
+          Current user: {this.props.user.email}
+          Current ID: {this.props.user._id}
         </Text>
-      </Button>
+      </View>
     );
   }
 }
 
 function mapStateToProps (state) {
-  console.log('what am i mapping', state.user);
+  console.log('UserApp State is', state);
+  //Returns deepest state in tree
   return {
-    user: state.user.user[0]
+    user: state.user.user[state.user.user.length -1]
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    dispatchSetUser: (user) => dispatch(setUser(user))
-  }
-}
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
 )(UserApp)

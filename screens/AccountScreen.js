@@ -3,6 +3,7 @@ import {View, StyleSheet, Text} from 'react-native'
 import AccountList from '../components/AccountList'
 import Account from '../components/Account';
 import AppContainer from '../components/AppContainer'
+import UserApp from '../components/UserApp'
 
 export default class AccountScreen extends React.Component {
 
@@ -22,8 +23,8 @@ export default class AccountScreen extends React.Component {
     console.log('accountProps', this.props);
     return (
       <AppContainer>
-        <Account/>
         <AccountList></AccountList>
+        <UserApp/>
       </AppContainer>
     );
   }

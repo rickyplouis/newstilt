@@ -8,7 +8,6 @@ import {
 } from 'react-native'
 
 import CounterApp from './CounterApp';
-import UserApp from './UserApp';
 
 export default class AppContainer extends React.Component {
 
@@ -22,7 +21,6 @@ export default class AppContainer extends React.Component {
       <View
         style={styles.container}
         >
-        <UserApp/>
         {this.props.children}
       </View>
     )

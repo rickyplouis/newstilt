@@ -10,10 +10,15 @@ import HomeScreen from './HomeScreen'
 import SignupScreen from './SignupScreen'
 
 import AppContainer from '../components/AppContainer'
+import UserApp from '../components/UserApp'
 
 import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
 
-export default class LoginScreen extends React.Component {
+//Redux Related Imports
+import { connect } from 'react-redux';
+import { setUser } from '../actions/userActions'
+
+class LoginScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Login'
@@ -22,6 +27,7 @@ export default class LoginScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      id: "",
       username: "",
       password: "",
       usernameInvalid: false,
@@ -29,6 +35,14 @@ export default class LoginScreen extends React.Component {
       userMessage: "",
       passMessage: "",
     }
+  }
+
+  setUser = () => {
+    if (this.state.inputValue === '') return;
+
+    this.setState({
+      inputValue: this.state.inputValue += 'AY'
+    })
   }
 
   login = () => {
@@ -54,10 +68,14 @@ export default class LoginScreen extends React.Component {
           const user = val.user;
           const { navigate } = this.props.navigation.navigate;
           this.props.navigation.navigate('Home');
-          this.setState({
-            user
-          })
           console.log('user is', user);
+
+          //UPDATE REDUX STATE
+          this.props.dispatchSetUser({
+            email: user.email,
+            _id: user._id
+          })
+
         })
       } else {
         response.json().then( (val) => {
@@ -96,7 +114,7 @@ export default class LoginScreen extends React.Component {
               <Content>
                 <Form>
                   <Item stackedLabel error={this.state.usernameInvalid}>
-                    <Label>Username: + {this.props.user}</Label>
+                    <Label>Username:</Label>
                     <Input placeholder={this.state.userMessage} value={this.state.username} autoCapitalize={'none'} onChangeText={(userInput) => this.setState({"username": userInput , "usernameInvalid": false})} />
                   </Item>
                   <Item stackedLabel error={this.state.passwordInvalid} last>
@@ -110,6 +128,7 @@ export default class LoginScreen extends React.Component {
                   >
                   <Text>Login</Text>
                 </Button>
+                <UserApp/>
                 <Button transparent>
                   <Text style={styles.signupButton} onPress={this.goToSignup}>Don't have an account? Register here.</Text>
                 </Button>
@@ -118,6 +137,19 @@ export default class LoginScreen extends React.Component {
       </AppContainer>
 
     )
+  }
+}
+
+
+function mapStateToProps (state) {
+  return {
+    user: state.user.user[0]
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    dispatchSetUser: (user) => dispatch(setUser(user))
   }
 }
 
@@ -135,3 +167,8 @@ const styles = StyleSheet.create({
     color: 'dodgerblue'
   }
 })
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginScreen)
