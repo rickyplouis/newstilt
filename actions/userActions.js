@@ -1,7 +1,8 @@
 import * as types from './actionTypes';
 
-export function setUser() {
+export function setUser(user) {
   return {
-    type: types.SET_USER
+    type: types.SET_USER,
+    user
   };
 }
