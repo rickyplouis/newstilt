@@ -23,7 +23,6 @@ export default class AppContainer extends React.Component {
         style={styles.container}
         >
         <UserApp/>
-        <CounterApp/>
         {this.props.children}
       </View>
     )

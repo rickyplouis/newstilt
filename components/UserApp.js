@@ -3,9 +3,10 @@
 import { Text } from 'react-native'
 import React, {Component} from 'react';
 import { bindActionCreators } from 'redux';
-import * as userActions from '../actions/userActions';
-import { connect } from 'react-redux';
 import { Button } from 'native-base';
+
+//Redux Related Imports
+import { connect } from 'react-redux';
 import { setUser } from '../actions/userActions'
 
 class UserApp extends Component {
@@ -30,11 +31,10 @@ class UserApp extends Component {
   render() {
     const { state, actions } = this.props;
     console.log('UserApp props', this.props);
-    console.log('userApp actions', actions);
     return (
       <Button onPress={this.setUser}>
         <Text>
-          {'some text here'}
+          {this.state.inputValue}
         </Text>
       </Button>
     );
