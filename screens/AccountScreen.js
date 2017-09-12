@@ -1,14 +1,14 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native'
-import AccountList from '../components/AccountList'
-import Account from '../components/Account';
-import AppContainer from '../components/AppContainer'
-import UserApp from '../components/UserApp'
+import { connect } from 'react-redux';
 
-export default class AccountScreen extends React.Component {
+import AccountList    from '../components/AccountList'
+import Account        from '../components/Account';
+
+class AccountScreen extends React.Component {
 
   static navigationOptions = {
-    header: null,
+    title: 'Account',
   };
 
   constructor(props){
@@ -22,11 +22,22 @@ export default class AccountScreen extends React.Component {
   render() {
     console.log('accountProps', this.props);
     return (
-      <AppContainer>
+      <View style={styles.container}>
+        <Text>
+          Current User: {this.props.user.email}
+        </Text>
+        <Text>
+          Current ID: {this.props.user._id}
+        </Text>
         <AccountList></AccountList>
-        <UserApp/>
-      </AppContainer>
+      </View>
     );
+  }
+}
+
+mapStateToProps = (state) => {
+  return {
+    user: state.user.user[state.user.user.length -1]
   }
 }
 
@@ -37,3 +48,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   }
 });
+
+export default connect(
+  mapStateToProps
+)(AccountScreen);

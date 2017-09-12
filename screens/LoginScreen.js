@@ -9,11 +9,9 @@ import { StackNavigator } from 'react-navigation'
 import HomeScreen from './HomeScreen'
 import SignupScreen from './SignupScreen'
 
-import AppContainer from '../components/AppContainer'
-import UserApp from '../components/UserApp'
 import SignupNavButton from '../components/SignupNavButton'
 
-import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
+import { Container, Content, Form, Item, Input, Label, Button } from 'native-base';
 
 //Redux Related Imports
 import { connect } from 'react-redux';
@@ -22,7 +20,7 @@ import { setUser } from '../actions/userActions'
 class LoginScreen extends React.Component {
 
   static navigationOptions = {
-    title: 'Login'
+    title: 'Login',
   };
 
   constructor(props){
@@ -106,31 +104,29 @@ class LoginScreen extends React.Component {
   render(){
     console.log('this.props on LoginScreen are ', this.props);
     return (
-      <AppContainer>
-            <Container>
-              <Content>
-                <Form>
-                  <Item stackedLabel error={this.state.usernameInvalid}>
-                    <Label>Username:</Label>
-                    <Input placeholder={this.state.userMessage} value={this.state.username} autoCapitalize={'none'} onChangeText={(userInput) => this.setState({"username": userInput , "usernameInvalid": false})} />
-                  </Item>
-                  <Item stackedLabel error={this.state.passwordInvalid} last>
-                    <Label>Password</Label>
-                    <Input placeholder={this.state.passMessage} secureTextEntry={true} value={this.state.password} autoCapitalize={'none'} onChangeText={(passInput) => this.setState({"password": passInput, "passwordInvalid": false})} />
-                  </Item>
-                </Form>
-                <Button block
-                  onPress={this.login}
-                  disabled={this.state.username.length == 0 || this.state.password.length == 0}
-                  >
-                  <Text>Login</Text>
-                </Button>
-                <UserApp/>
-                <SignupNavButton navigate={this.props.navigation.navigate} />
-              </Content>
-            </Container>
-      </AppContainer>
-
+      <View style={styles.container}>
+        <Container>
+          <Content>
+            <Form>
+              <Item stackedLabel error={this.state.usernameInvalid}>
+                <Label>Username:</Label>
+                <Input placeholder={this.state.userMessage} value={this.state.username} autoCapitalize={'none'} onChangeText={(userInput) => this.setState({"username": userInput , "usernameInvalid": false})} />
+              </Item>
+              <Item stackedLabel error={this.state.passwordInvalid} last>
+                <Label>Password</Label>
+                <Input placeholder={this.state.passMessage} secureTextEntry={true} value={this.state.password} autoCapitalize={'none'} onChangeText={(passInput) => this.setState({"password": passInput, "passwordInvalid": false})} />
+              </Item>
+            </Form>
+            <Button block
+              onPress={this.login}
+              disabled={this.state.username.length == 0 || this.state.password.length == 0}
+              >
+              <Text>Login</Text>
+            </Button>
+            <SignupNavButton navigate={this.props.navigation.navigate} />
+          </Content>
+        </Container>
+      </View>
     )
   }
 }
@@ -156,7 +152,8 @@ const App = StackNavigator({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#fff',
   }
 })
 
