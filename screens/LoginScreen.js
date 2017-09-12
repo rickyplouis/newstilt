@@ -7,7 +7,6 @@ import {
 
 import { StackNavigator } from 'react-navigation'
 import HomeScreen from './HomeScreen'
-import SignupScreen from './SignupScreen'
 
 import SignupNavButton from '../components/SignupNavButton'
 
@@ -45,12 +44,6 @@ class LoginScreen extends React.Component {
   }
 
   login = () => {
-
-    const values = {
-      "email": this.state.username,
-      "password": this.state.password
-    }
-
     var postOptions = {
       method: 'post',
       headers: {
@@ -58,42 +51,41 @@ class LoginScreen extends React.Component {
         'Content-Type': 'application/json'
       },
       //make sure to serialize your JSON body
-      body: JSON.stringify(values)
+      body: JSON.stringify({
+        "email": this.state.username,
+        "password": this.state.password
+      })
     }
 
     fetch( 'https://newstiltapi.com/login', postOptions).then( (response) => {
       if (response.status == 200){
         response.json().then( (val) => {
-          const user = val.user;
-          const { navigate } = this.props.navigation.navigate;
           this.props.navigation.navigate('Home');
-          console.log('user is', user);
-
-          //UPDATE REDUX STATE
           this.props.dispatchSetUser({
-            email: user.email,
-            _id: user._id
+            email: val.user.email,
+            _id: val.user._id
           })
 
         })
       } else {
         response.json().then( (val) => {
           const err = val.description[0];
-
-          if (err == 'no user found'){
-            this.setState({
-              username: "",
-              usernameInvalid: true,
-              userMessage: err
-            })
-          } else if (err == 'Wrong password'){
-            this.setState({
-              password: "",
-              passwordInvalid: true,
-              passMessage: err
-            })
+          switch (err) {
+            case 'no user found':
+              this.setState({
+                username: "",
+                usernameInvalid: true,
+                userMessage: err
+              })
+              break;
+            case 'Wrong password':
+              this.setState({
+                password: "",
+                passwordInvalid: true,
+                passMessage: err
+              })
+            default:
           }
-          console.log('err', err);
         })
       }
     }).catch( (error) => {
@@ -102,7 +94,6 @@ class LoginScreen extends React.Component {
   }
 
   render(){
-    console.log('this.props on LoginScreen are ', this.props);
     return (
       <View style={styles.container}>
         <Container>
