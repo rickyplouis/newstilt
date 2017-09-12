@@ -11,6 +11,7 @@ import SignupScreen from './SignupScreen'
 
 import AppContainer from '../components/AppContainer'
 import UserApp from '../components/UserApp'
+import SignupNavButton from '../components/SignupNavButton'
 
 import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
 
@@ -102,12 +103,8 @@ class LoginScreen extends React.Component {
     })
   }
 
-  goToSignup = () => {
-    this.props.navigation.navigate('Signup')
-  }
-
-
   render(){
+    console.log('this.props on LoginScreen are ', this.props);
     return (
       <AppContainer>
             <Container>
@@ -129,9 +126,7 @@ class LoginScreen extends React.Component {
                   <Text>Login</Text>
                 </Button>
                 <UserApp/>
-                <Button transparent>
-                  <Text style={styles.signupButton} onPress={this.goToSignup}>Don't have an account? Register here.</Text>
-                </Button>
+                <SignupNavButton navigate={this.props.navigation.navigate} />
               </Content>
             </Container>
       </AppContainer>
@@ -162,9 +157,6 @@ const App = StackNavigator({
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  signupButton: {
-    color: 'dodgerblue'
   }
 })
 
