@@ -1,8 +1,8 @@
 import React from 'react'
 import {
-  Text,
   View,
-  StyleSheet,
+  Text,
+  StyleSheet
 } from 'react-native'
 
 import { StackNavigator } from 'react-navigation'
@@ -10,7 +10,7 @@ import HomeScreen from './HomeScreen'
 import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
 import { Root } from "native-base";
 
-export default class LoginScreen extends React.Component {
+export default class SignupScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Signup'
@@ -20,47 +20,24 @@ export default class LoginScreen extends React.Component {
     super(props);
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      confirmPassword: ""
     }
   }
 
-  login = () => {
-
-
-    const values = {
-      "email": this.state.username,
-      "password": this.state.password
+  renderErrorMessage () {
+    if (this.state.confirmPassword.length > 0 && (this.state.password != this.state.confirmPassword) ){
+      return (
+        <Item>
+          <Text style={styles.errorText}>
+            Passwords don't match
+          </Text>
+        </Item>
+      )
+    } else {
+      return null
     }
-
-    var postOptions = {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      //make sure to serialize your JSON body
-      body: JSON.stringify(values)
-    }
-
-    fetch( 'https://newstiltapi.com/login', postOptions).then( (response) => {
-      if (response.status == 200){
-        response.json().then( (val) => {
-          const user = val.user;
-          const { navigate } = this.props.navigation;
-          navigate('Home');
-          console.log('user is', user);
-        })
-      } else {
-        response.json().then( (val) => {
-          const err = val.description[0];
-          console.log('err', err);
-        })
-      }
-    }).catch( (error) => {
-      console.log('error', error);
-    })
   }
-
 
   render(){
 
@@ -76,16 +53,17 @@ export default class LoginScreen extends React.Component {
                   </Item>
                   <Item floatingLabel last>
                     <Label>Password</Label>
-                    <Input autoCapitalize={'none'} onChangeText={(password) => this.setState({password})} />
+                    <Input autoCapitalize={'none'} secureTextEntry={true} onChangeText={(password) => this.setState({password})} />
                   </Item>
                   <Item floatingLabel last>
                     <Label>Confirm Password</Label>
-                    <Input autoCapitalize={'none'} onChangeText={(password) => this.setState({password})} />
+                    <Input autoCapitalize={'none'} secureTextEntry={true} onChangeText={(confirmPassword) => this.setState({confirmPassword})} />
                   </Item>
+                  {this.renderErrorMessage()}
                 </Form>
                 <Button block
                   onPress={this.login}
-                  disabled={this.state.username.length == 0 || this.state.password.length == 0}
+                  disabled={this.state.username.length == 0 || this.state.password.length == 0 || this.state.password != this.state.confirmPassword}
                   >
                   <Text>Signup</Text>
                 </Button>
@@ -105,6 +83,10 @@ const App = StackNavigator({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#fff'
+  },
+  errorText: {
+    color: 'red'
   }
 })
