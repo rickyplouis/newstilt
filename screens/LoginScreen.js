@@ -12,7 +12,9 @@ import SignupNavButton from '../components/SignupNavButton'
 
 import { Container, Content, Form, Item, Input, Label, Button } from 'native-base';
 
-import { getCardsByInfluencer } from '../controllers/fetchCards'
+import { getCardData, getInfluencers} from '../controllers/fetchAPI'
+
+import { apiURL } from '../config/index.js'
 
 //REDUX IMPORTS
 import { connect } from 'react-redux';
@@ -54,6 +56,24 @@ class LoginScreen extends React.Component {
     })
   }
 
+  getCards = (influencer) => {
+    getInfluencers().then( (influencerArray) => {
+      for (let influencer of influencerArray){
+        getCardData(influencer.sourceIndex).then( (cardArray) => {
+          for (let card of cardArray){
+            card.logo = influencer.logo
+            this.props.dispatchSetCards(card);
+          }
+        })
+      }
+    })
+  }
+
+  fetchInfluencers = () => {
+    getInfluencers()
+  }
+
+
   login = () => {
     var postOptions = {
       method: 'post',
@@ -68,20 +88,14 @@ class LoginScreen extends React.Component {
       })
     }
 
-    fetch( 'https://newstiltapi.com/login', postOptions).then( (response) => {
+    fetch( apiURL + '/login', postOptions).then( (response) => {
       if (response.status == 200){
         response.json().then( (val) => {
           Promise.all([
             this.props.navigation.navigate('Home'),
             this.updateUserState(val.user.email, val.user._id, val.user.tilt),
-            getCardsByInfluencer('techcrunch').then( (cardArray) => {
-              for (let card of cardArray){
-                this.props.dispatchSetCards(card);
-              }
-            })
-          ]).then( (res) => {
-            console.log('res is', res);
-          })
+            this.getCards()
+          ])
         })
       } else {
         response.json().then( (val) => {
