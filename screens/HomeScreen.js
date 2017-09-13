@@ -7,7 +7,6 @@ import {
 import { WebBrowser } from 'expo';
 
 import SwiperComponent from '../components/SwiperComponent'
-import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {

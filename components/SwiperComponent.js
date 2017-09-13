@@ -13,7 +13,34 @@ const cards = [
     image: require('../assets/images/robot-dev.png')
   }
 ];
+
+
 export default class SwiperComponent extends React.Component {
+
+renderCard = (item) => {
+  return (
+    <Card style={{ elevation: 3 }}>
+      <CardItem>
+        <Left>
+          <Thumbnail source={item.image} />
+          <Body>
+            <Text>{item.text}</Text>
+            <Text note>NativeBase</Text>
+          </Body>
+        </Left>
+      </CardItem>
+      <CardItem cardBody>
+        <Image style={{ height: 300, flex: 1 }} source={item.image} />
+      </CardItem>
+      <CardItem>
+        <Icon name="heart" style={{ color: '#ED4A6A' }} />
+        <Text>{item.name}</Text>
+      </CardItem>
+    </Card>
+  )
+}
+
+
   render() {
     return (
       <Container>
@@ -21,26 +48,7 @@ export default class SwiperComponent extends React.Component {
         <View>
           <DeckSwiper
             dataSource={cards}
-            renderItem={item =>
-              <Card style={{ elevation: 3 }}>
-                <CardItem>
-                  <Left>
-                    <Thumbnail source={item.image} />
-                    <Body>
-                      <Text>{item.text}</Text>
-                      <Text note>NativeBase</Text>
-                    </Body>
-                  </Left>
-                </CardItem>
-                <CardItem cardBody>
-                  <Image style={{ height: 300, flex: 1 }} source={item.image} />
-                </CardItem>
-                <CardItem>
-                  <Icon name="heart" style={{ color: '#ED4A6A' }} />
-                  <Text>{item.name}</Text>
-                </CardItem>
-              </Card>
-            }
+            renderItem={item => this.renderCard(item)}
           />
         </View>
       </Container>

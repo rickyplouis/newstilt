@@ -42,14 +42,9 @@ class AccountScreen extends React.Component {
       <Container style={styles.container}>
         <Content>
           <Card>
-            <CardItem>
+            <CardItem header>
               <Text>
                 Current User: {this.props.user.email}
-              </Text>
-            </CardItem>
-            <CardItem>
-              <Text>
-                Current ID: {this.props.user._id}
               </Text>
             </CardItem>
             <CardItem>
@@ -57,9 +52,6 @@ class AccountScreen extends React.Component {
             </CardItem>
             <CardItem header>
               <TiltHeader/>
-            </CardItem>
-            <CardItem header>
-              <Text>Username Here</Text>
             </CardItem>
             <CardItem>
               <Icon active name={IconName.Preferred} />
