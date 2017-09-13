@@ -12,6 +12,8 @@ import SignupNavButton from '../components/SignupNavButton'
 
 import { Container, Content, Form, Item, Input, Label, Button } from 'native-base';
 
+import { getCardsByInfluencer } from '../controllers/fetchCards'
+
 //REDUX IMPORTS
 import { connect } from 'react-redux';
 import { setUser } from '../actions/userActions'
@@ -44,41 +46,6 @@ class LoginScreen extends React.Component {
     })
   }
 
-  getCardsByInfluencer = () => {
-    var getOptions = {
-      method: 'get',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }
-    fetch('https://newsapi.org/v1/articles?source=techcrunch&apiKey=0a2950e0875d42a2ae1adc0c038200db', getOptions).then( (response) => {
-
-      const cardData = [];
-
-      if (response.status == 200){
-        response.json().then( (val) => {
-          for (let article of val.articles){
-            this.props.dispatchSetCards({
-              "header": article.title,
-              "author": article.author,
-              "image": article.urlToImage
-            })
-          }
-          return cardData;
-        })
-      } else {
-        response.json().then( (val) => {
-          console.log('val is', val);
-          const err = val.description[0];
-          return [];
-        })
-      }
-    }).catch( (error) => {
-      console.log('error', error);
-    })
-  }
-
   updateUserState = (email, _id, tilt) => {
     this.props.dispatchSetUser({
       email,
@@ -107,8 +74,14 @@ class LoginScreen extends React.Component {
           Promise.all([
             this.props.navigation.navigate('Home'),
             this.updateUserState(val.user.email, val.user._id, val.user.tilt),
-            this.getCardsByInfluencer()
-          ])
+            getCardsByInfluencer('techcrunch').then( (cardArray) => {
+              for (let card of cardArray){
+                this.props.dispatchSetCards(card);
+              }
+            })
+          ]).then( (res) => {
+            console.log('res is', res);
+          })
         })
       } else {
         response.json().then( (val) => {
@@ -137,7 +110,6 @@ class LoginScreen extends React.Component {
   }
 
   render(){
-    console.log('init props are', this.props);
     return (
       <View style={styles.container}>
         <Container>
