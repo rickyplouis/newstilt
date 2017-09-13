@@ -5,7 +5,9 @@ import { connect }    from 'react-redux';
 import TiltSlider     from '../components/TiltSlider'
 import TiltHeader     from '../components/TiltHeader'
 
-import { Container, Content, Card, CardItem, Text, Icon, Right } from 'native-base';
+import InfluencerScreen from './InfluencerScreen'
+
+import { Container, Content, Card, Button, CardItem, Text, Icon, Right } from 'native-base';
 
 let usingIOS = () => {
   return Platform.OS === 'ios';
@@ -25,6 +27,11 @@ class AccountScreen extends React.Component {
 
   usingIOS = () => {
     return Platform.OS === 'ios';
+  }
+
+  goToInfluencers = () => {
+    console.log('clicked goToInfluencers');
+    this.props.navigation.navigate('Influencers')
   }
 
 
@@ -53,14 +60,14 @@ class AccountScreen extends React.Component {
             <CardItem header>
               <TiltHeader/>
             </CardItem>
-            <CardItem>
+            <CardItem button onPress={this.goToInfluencers}>
               <Icon active name={IconName.Preferred} />
-              <Text>Preferred Categories</Text>
+              <Text>Influencers</Text>
               <Right>
                 <Icon name="arrow-forward" />
               </Right>
              </CardItem>
-             <CardItem>
+             <CardItem button>
                <Icon active name={IconName.Excluded} />
                <Text>Exclude From Discovery</Text>
                <Right>
@@ -79,7 +86,6 @@ mapStateToProps = (state) => {
     user: state.user.user[state.user.user.length -1]
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {
