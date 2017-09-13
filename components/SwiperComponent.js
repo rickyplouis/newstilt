@@ -7,9 +7,10 @@ import { Container, View, DeckSwiper,
        } from 'native-base';
 
 
+import { connect } from 'react-redux'
 import CardComponent from './CardComponent'
 
-export default class SwiperComponent extends React.Component {
+class SwiperComponent extends React.Component {
 
 flagged = () => {
   console.log('fakeNews!');
@@ -26,49 +27,6 @@ constructor(props){
   }
 }
 
-
-getCardsByInfluencer = () => {
-  var getOptions = {
-    method: 'get',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    }
-  }
-  fetch('https://newsapi.org/v1/articles?source=techcrunch&apiKey=0a2950e0875d42a2ae1adc0c038200db', getOptions).then( (response) => {
-
-    const cardData = this.state.cards;
-
-    if (response.status == 200){
-      response.json().then( (val) => {
-        for (let article of val.articles){
-          cardData.push({
-            "header": article.title,
-            "author": article.author,
-            "image": article.urlToImage
-          })
-        }
-        this.setState({
-          cards: cardData
-        })
-        return cardData;
-      })
-    } else {
-      response.json().then( (val) => {
-        console.log('val is', val);
-        const err = val.description[0];
-        return [];
-      })
-    }
-  }).catch( (error) => {
-    console.log('error', error);
-  })
-}
-
-componentWillMount(){
-  this.getCardsByInfluencer();
-}
-
 renderCard = (item) => {
   return (
     <CardComponent content={item} />
@@ -77,11 +35,12 @@ renderCard = (item) => {
 
 
   render() {
+    console.log('props on SwiperComponent', this.props);
     return (
       <Container>
         <View>
           <DeckSwiper
-            dataSource={this.state.cards}
+            dataSource={this.props.cards}
             renderItem={item => this.renderCard(item)}
           />
         </View>
@@ -89,3 +48,22 @@ renderCard = (item) => {
     );
   }
 }
+
+function mapStateToProps (state) {
+  return {
+    user: state.user.user[0],
+    cards: state.cards.cards
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    dispatchSetUser: (user) => dispatch(setUser(user)),
+    dispatchSetCards: (cards) => dispatch(setCards(cards))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SwiperComponent)

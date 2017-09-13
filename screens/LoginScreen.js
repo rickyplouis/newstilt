@@ -15,6 +15,7 @@ import { Container, Content, Form, Item, Input, Label, Button } from 'native-bas
 //REDUX IMPORTS
 import { connect } from 'react-redux';
 import { setUser } from '../actions/userActions'
+import { setCards } from '../actions/cardActions'
 
 class LoginScreen extends React.Component {
 
@@ -43,6 +44,49 @@ class LoginScreen extends React.Component {
     })
   }
 
+  getCardsByInfluencer = () => {
+    var getOptions = {
+      method: 'get',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }
+    fetch('https://newsapi.org/v1/articles?source=techcrunch&apiKey=0a2950e0875d42a2ae1adc0c038200db', getOptions).then( (response) => {
+
+      const cardData = [];
+
+      if (response.status == 200){
+        response.json().then( (val) => {
+          for (let article of val.articles){
+            this.props.dispatchSetCards({
+              "header": article.title,
+              "author": article.author,
+              "image": article.urlToImage
+            })
+          }
+          return cardData;
+        })
+      } else {
+        response.json().then( (val) => {
+          console.log('val is', val);
+          const err = val.description[0];
+          return [];
+        })
+      }
+    }).catch( (error) => {
+      console.log('error', error);
+    })
+  }
+
+  updateUserState = (email, _id, tilt) => {
+    this.props.dispatchSetUser({
+      email,
+      _id,
+      tilt
+    })
+  }
+
   login = () => {
     var postOptions = {
       method: 'post',
@@ -60,13 +104,11 @@ class LoginScreen extends React.Component {
     fetch( 'https://newstiltapi.com/login', postOptions).then( (response) => {
       if (response.status == 200){
         response.json().then( (val) => {
-          this.props.navigation.navigate('Home');
-          this.props.dispatchSetUser({
-            email: val.user.email,
-            _id: val.user._id,
-            tilt: val.user.tilt
-          })
-
+          Promise.all([
+            this.props.navigation.navigate('Home'),
+            this.updateUserState(val.user.email, val.user._id, val.user.tilt),
+            this.getCardsByInfluencer()
+          ])
         })
       } else {
         response.json().then( (val) => {
@@ -95,6 +137,7 @@ class LoginScreen extends React.Component {
   }
 
   render(){
+    console.log('init props are', this.props);
     return (
       <View style={styles.container}>
         <Container>
@@ -126,13 +169,15 @@ class LoginScreen extends React.Component {
 
 function mapStateToProps (state) {
   return {
-    user: state.user.user[0]
+    user: state.user.user[0],
+    cards: state.cards.cards[0]
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    dispatchSetUser: (user) => dispatch(setUser(user))
+    dispatchSetUser: (user) => dispatch(setUser(user)),
+    dispatchSetCards: (cards) => dispatch(setCards(cards))
   }
 }
 
