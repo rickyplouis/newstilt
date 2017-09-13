@@ -10,7 +10,12 @@ import HomeScreen from './HomeScreen'
 import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
 import { Root } from "native-base";
 
-export default class SignupScreen extends React.Component {
+//REDUX IMPORTS
+import { connect } from 'react-redux'
+import { setUser } from '../actions/userActions'
+
+
+class SignupScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Signup'
@@ -19,9 +24,14 @@ export default class SignupScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      username: "",
+      email: "",
       password: "",
-      confirmPassword: ""
+      passwordChanged: false,
+      confirmPassword: "",
+      emailInvalid: false,
+      passwordInvalid: false,
+      emailMessage: "",
+      passMessage: ""
     }
   }
 
@@ -34,9 +44,59 @@ export default class SignupScreen extends React.Component {
           </Text>
         </Item>
       )
+    } else if (this.state.passwordChanged && this.state.password.length < 6) {
+      return (
+        <Item>
+          <Text style={styles.errorText}>
+            Password must be atleast six characters
+          </Text>
+        </Item>
+      )
     } else {
       return null
     }
+  }
+
+  signup = () => {
+    var postOptions = {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      //make sure to serialize your JSON body
+      body: JSON.stringify({
+        "email": this.state.email,
+        "password": this.state.password
+      })
+    }
+
+    fetch( 'https://newstiltapi.com/signup', postOptions).then( (response) => {
+      if (response.status == 200){
+        response.json().then( (val) => {
+          this.props.navigation.navigate('Home');
+          this.props.dispatchSetUser({
+            email: val.user.email,
+            _id: val.user._id
+          })
+        })
+      } else {
+        response.json().then( (val) => {
+          const err = val.description[0];
+          console.log('val description', val.description);
+
+          if (err == 'That email is already taken.'){
+            this.setState({
+              email: "",
+              emailInvalid: true,
+              emailMessage: err
+            })
+          }
+        })
+      }
+    }).catch( (error) => {
+      console.log('error', error);
+    })
   }
 
   render(){
@@ -47,13 +107,13 @@ export default class SignupScreen extends React.Component {
             <Container>
               <Content>
                 <Form>
-                  <Item floatingLabel>
+                  <Item floatingLabel error={this.state.emailInvalid}>
                     <Label>Username</Label>
-                    <Input autoCapitalize={'none'} onChangeText={(username) => this.setState({username})} />
+                    <Input placeholder={this.state.emailMessage} value={this.state.email} autoCapitalize={'none'} onChangeText={(email) => this.setState({email})} />
                   </Item>
                   <Item floatingLabel last>
                     <Label>Password</Label>
-                    <Input autoCapitalize={'none'} secureTextEntry={true} onChangeText={(password) => this.setState({password})} />
+                    <Input placeholder={this.state.passMessage} value={this.state.password} autoCapitalize={'none'} secureTextEntry={true} onChangeText={(password) => this.setState({password, passwordChanged: true})} />
                   </Item>
                   <Item floatingLabel last>
                     <Label>Confirm Password</Label>
@@ -62,8 +122,8 @@ export default class SignupScreen extends React.Component {
                   {this.renderErrorMessage()}
                 </Form>
                 <Button block
-                  onPress={this.login}
-                  disabled={this.state.username.length == 0 || this.state.password.length == 0 || this.state.password != this.state.confirmPassword}
+                  onPress={this.signup}
+                  disabled={this.state.email.length == 0 || this.state.password.length == 0 || this.state.password != this.state.confirmPassword}
                   >
                   <Text>Signup</Text>
                 </Button>
@@ -75,11 +135,17 @@ export default class SignupScreen extends React.Component {
   }
 }
 
-const App = StackNavigator({
-  Home: {
-    screen: HomeScreen
+function mapStateToProps (state) {
+  return {
+    user: state.user.user[0]
   }
-})
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    dispatchSetUser: (user) => dispatch(setUser(user))
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -90,3 +156,8 @@ const styles = StyleSheet.create({
     color: 'red'
   }
 })
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignupScreen)

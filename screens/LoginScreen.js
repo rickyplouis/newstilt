@@ -12,7 +12,7 @@ import SignupNavButton from '../components/SignupNavButton'
 
 import { Container, Content, Form, Item, Input, Label, Button } from 'native-base';
 
-//Redux Related Imports
+//REDUX IMPORTS
 import { connect } from 'react-redux';
 import { setUser } from '../actions/userActions'
 
@@ -26,11 +26,11 @@ class LoginScreen extends React.Component {
     super(props);
     this.state = {
       id: "",
-      username: "",
+      email: "",
       password: "",
-      usernameInvalid: false,
+      emailInvalid: false,
       passwordInvalid: false,
-      userMessage: "",
+      emailMessage: "",
       passMessage: "",
     }
   }
@@ -52,7 +52,7 @@ class LoginScreen extends React.Component {
       },
       //make sure to serialize your JSON body
       body: JSON.stringify({
-        "email": this.state.username,
+        "email": this.state.email,
         "password": this.state.password
       })
     }
@@ -73,9 +73,9 @@ class LoginScreen extends React.Component {
           switch (err) {
             case 'no user found':
               this.setState({
-                username: "",
-                usernameInvalid: true,
-                userMessage: err
+                email: "",
+                emailInvalid: true,
+                emailMessage: err
               })
               break;
             case 'Wrong password':
@@ -99,9 +99,9 @@ class LoginScreen extends React.Component {
         <Container>
           <Content>
             <Form>
-              <Item stackedLabel error={this.state.usernameInvalid}>
-                <Label>Username:</Label>
-                <Input placeholder={this.state.userMessage} value={this.state.username} autoCapitalize={'none'} onChangeText={(userInput) => this.setState({"username": userInput , "usernameInvalid": false})} />
+              <Item stackedLabel error={this.state.emailInvalid}>
+                <Label>Email:</Label>
+                <Input placeholder={this.state.emailMessage} value={this.state.email} autoCapitalize={'none'} onChangeText={(emailInput) => this.setState({"email": emailInput , "emailInvalid": false})} />
               </Item>
               <Item stackedLabel error={this.state.passwordInvalid} last>
                 <Label>Password</Label>
@@ -110,7 +110,7 @@ class LoginScreen extends React.Component {
             </Form>
             <Button block
               onPress={this.login}
-              disabled={this.state.username.length == 0 || this.state.password.length == 0}
+              disabled={this.state.email.length == 0 || this.state.password.length == 0}
               >
               <Text>Login</Text>
             </Button>
