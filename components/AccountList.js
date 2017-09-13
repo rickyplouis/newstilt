@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Container, Content, Card, CardItem, Text, Icon, Right } from 'native-base';
 import { Platform, Slider, StyleSheet } from 'react-native';
+import TiltSlider from './TiltSlider'
+
+import { setUser } from '../actions/userActions';
+import { connect } from 'react-redux';
 
 let usingIOS = () => {
   return Platform.OS === 'ios';
@@ -11,7 +15,7 @@ const IconName = {
   Excluded: usingIOS() === 'ios' ? `ios-close-circle` : `md-close-circle`
 }
 
-export default class AccountList extends Component {
+class AccountList extends Component {
 
   constructor(props){
     super(props)
@@ -51,18 +55,11 @@ export default class AccountList extends Component {
         <Content>
           <Card>
             <CardItem>
-              <Slider
-                style={styles.sliderStyles}
-                value={this.state.tilt}
-                maximumValue={2}
-                minimumValue={-2}
-                step={1}
-                onSlidingComplete={ val => this.setState({tilt: val})}
-                />
+              <TiltSlider/>
             </CardItem>
             <CardItem header>
               <Text>
-                Adjust Tilt : { this.tiltHeader(this.state.tilt) }
+                Adjust Tilt : { this.tiltHeader(this.props.user.tilt) }
               </Text>
             </CardItem>
             <CardItem header>
@@ -94,3 +91,21 @@ const styles = StyleSheet.create({
     width: 300
   }
 })
+
+function mapStateToProps (state) {
+  return {
+    user: state.user.user[state.user.user.length -1]
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    dispatchSetUser: (user) => dispatch(setUser(user))
+  }
+}
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AccountList)

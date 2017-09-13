@@ -1,6 +1,10 @@
 import * as types from '../actions/actionTypes';
 
-const initialState = { user: [{"email": "Old Email", "_id": "Old ID"}] };
+const initialState = { user: [{
+  "email": "Old Email",
+  "_id": "Old ID",
+  "tilt": 0
+}] };
 
 export default function user(state = initialState, action = {}) {
   console.log('action is', action);

@@ -63,7 +63,8 @@ class LoginScreen extends React.Component {
           this.props.navigation.navigate('Home');
           this.props.dispatchSetUser({
             email: val.user.email,
-            _id: val.user._id
+            _id: val.user._id,
+            tilt: val.user.tilt
           })
 
         })
