@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
-import { Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon } from 'native-base';
+import { Container, Header, View, DeckSwiper, Card, Button, CardItem, Thumbnail, Text, Left, Right, Body, Icon } from 'native-base';
 const cards = [
   {
     text: 'Card One',
@@ -17,6 +17,14 @@ const cards = [
 
 export default class SwiperComponent extends React.Component {
 
+flagged = () => {
+  console.log('fakeNews!');
+}
+
+favorite = () => {
+  console.log('faved!');
+}
+
 renderCard = (item) => {
   return (
     <Card style={{ elevation: 3 }}>
@@ -32,9 +40,19 @@ renderCard = (item) => {
       <CardItem cardBody>
         <Image style={{ height: 300, flex: 1 }} source={item.image} />
       </CardItem>
-      <CardItem>
-        <Icon name="heart" style={{ color: '#ED4A6A' }} />
-        <Text>{item.name}</Text>
+      <CardItem >
+        <Left>
+          <Button iconLeft transparent onPress={this.flagged}>
+            <Icon name="ios-flag" />
+            <Text>Flag</Text>
+          </Button>
+        </Left>
+        <Right>
+          <Button iconLeft transparent onPress={this.flagged}>
+            <Icon name="ios-heart" style={{color: 'red'}} />
+            <Text>Favorite</Text>
+          </Button>
+        </Right>
       </CardItem>
     </Card>
   )
@@ -44,7 +62,6 @@ renderCard = (item) => {
   render() {
     return (
       <Container>
-        <Header />
         <View>
           <DeckSwiper
             dataSource={cards}
