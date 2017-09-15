@@ -5,9 +5,15 @@ import { connect }    from 'react-redux';
 import TiltSlider     from '../components/TiltSlider'
 import TiltHeader     from '../components/TiltHeader'
 
+
+import { getInfluencers } from '../controllers/fetchAPI'
+
 import InfluencerScreen from './InfluencerScreen'
 
-import { Container, Content, Card, Button, CardItem, Text, Icon, Right } from 'native-base';
+import { setUser } from '../actions/userActions'
+import { setInfluencers } from '../actions/influencerActions'
+
+import { Container, Content, Card, Button, CardItem, Text, Icon, Right } from 'native-base'
 
 let usingIOS = () => {
   return Platform.OS === 'ios';
@@ -30,10 +36,15 @@ class AccountScreen extends React.Component {
   }
 
   goToInfluencers = () => {
-    console.log('clicked goToInfluencers');
+    console.log('entered goToInfluencers()');
+    getInfluencers().then( (influencerArray) => {
+      for (let influencer of influencerArray){
+        this.props.dispatchSetInfluencers(influencer)
+      }
+      console.log('Influencers are', this.props.influencers);
+    })
     this.props.navigation.navigate('Influencers')
   }
-
 
   constructor(props){
     super(props);
@@ -44,7 +55,6 @@ class AccountScreen extends React.Component {
 
 
   render() {
-    console.log('accountProps', this.props);
     return (
       <Container style={styles.container}>
         <Content>
@@ -81,9 +91,18 @@ class AccountScreen extends React.Component {
   }
 }
 
+mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchSetUser: (user) => dispatch(setUser(user)),
+    dispatchSetInfluencers: (influencers) => dispatch(setInfluencers(influencers))
+  }
+}
+
+
 mapStateToProps = (state) => {
   return {
-    user: state.user.user[state.user.user.length -1]
+    user: state.user.user[state.user.user.length -1],
+    influencers: state.influencers.influencers
   }
 }
 
@@ -97,4 +116,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   mapStateToProps,
+  mapDispatchToProps
 )(AccountScreen);
