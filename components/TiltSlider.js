@@ -7,6 +7,8 @@ import {
 import { connect } from 'react-redux'
 import { setUser} from '../actions/userActions'
 
+import { apiURL } from '../config/index'
+
 class TiltSlider extends React.Component {
 
   constructor(props){
@@ -23,7 +25,7 @@ class TiltSlider extends React.Component {
       }
     }
 
-    fetch( 'https://newstiltapi.com/api/users?id=' + this.props.user._id + '&tilt=' + tilt, postOptions).then( (response) => {
+    fetch( apiURL + '/api/users?id=' + this.props.user._id + '&tilt=' + tilt, postOptions).then( (response) => {
       if (response.status == 200){
         response.json().then( (val) => {
           this.props.dispatchSetUser({

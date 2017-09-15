@@ -10,6 +10,8 @@ import HomeScreen from './HomeScreen'
 import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
 import { Root } from "native-base";
 
+import { apiURL } from '../config/index'
+
 //REDUX IMPORTS
 import { connect } from 'react-redux'
 import { setUser } from '../actions/userActions'
@@ -71,7 +73,7 @@ class SignupScreen extends React.Component {
       })
     }
 
-    fetch( 'https://newstiltapi.com/signup', postOptions).then( (response) => {
+    fetch( apiURL + '/signup', postOptions).then( (response) => {
       if (response.status == 200){
         response.json().then( (val) => {
           this.props.navigation.navigate('Home');

@@ -1,5 +1,10 @@
 import { newsAPIKey, apiURL } from '../config/index';
 
+/**
+* Creates cards from newsAPI
+* @param {String} sourceIndex uniqueID for source
+* @return {Promise} resolve/reject(arrayOfCards)
+*/
 
 export function getCardData(sourceIndex){
     return new Promise(function(resolve, reject) {
@@ -13,8 +18,8 @@ export function getCardData(sourceIndex){
       fetch('https://newsapi.org/v1/articles?source=' + sourceIndex + '&apiKey=' + newsAPIKey, getOptions).then( (response) => {
         var cardData = [];
         if (response.status == 200){
-          response.json().then( (val) => {
-            for (let article of val.articles){
+          response.json().then( (res) => {
+            for (let article of res.articles){
 
               cardData.push({
                 "header": article.title,
@@ -25,15 +30,16 @@ export function getCardData(sourceIndex){
             resolve(cardData);
           })
         } else {
-          response.json().then( (val) => {
-            console.log('val is', val);
-            const err = val.description[0];
-            reject([])
-          })
+          reject(cardData)
         }
       })
     });
   }
+
+/**
+* Gets news sources from NewsAPI
+* @return {Promise} resolve/reject(array of objects)
+*/
 
 export function getInfluencers(){
     return new Promise(function(resolve, reject) {
@@ -51,10 +57,7 @@ export function getInfluencers(){
             resolve(res);
           })
         } else {
-          response.json().then( (val) => {
-            const err = val.description[0];
-            reject([])
-          })
+          reject(cardData)
         }
       })
     });

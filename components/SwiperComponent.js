@@ -35,7 +35,6 @@ renderCard = (item) => {
 
 
   render() {
-    console.log('props on SwiperComponent', this.props);
     return (
       <Container>
         <View>

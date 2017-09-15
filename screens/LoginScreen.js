@@ -60,9 +60,13 @@ class LoginScreen extends React.Component {
     getInfluencers().then( (influencerArray) => {
       for (let influencer of influencerArray){
         getCardData(influencer.sourceIndex).then( (cardArray) => {
-          for (let card of cardArray){
-            card.logo = influencer.logo
-            this.props.dispatchSetCards(card);
+          //for (let card of cardArray){
+//          card.logo = influencer.logo
+//          this.props.dispatchSetCards(card);
+          //Load less cards to speed up testing
+          for (let x = 0; x < 3; x++){
+            cardArray[x].logo = influencer.logo;
+            this.props.dispatchSetCards(cardArray[x])
           }
         })
       }
