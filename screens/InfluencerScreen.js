@@ -5,7 +5,11 @@ import {
   StyleSheet,
 } from 'react-native'
 
-export default class InfluencerScreen extends React.Component {
+import { connect } from 'react-redux'
+
+import { setInfluencers } from '../actions/influencerActions'
+
+class InfluencerScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Influencers',
@@ -18,17 +22,44 @@ export default class InfluencerScreen extends React.Component {
     }
   }
 
+  renderInfluencers = () => {
+    const influencerItems = this.props.influencers.map( (influencer) => <Text key={influencer.sourceIndex}>{influencer.name}</Text>);
+    return (
+      <Text>
+        {influencerItems}
+      </Text>
+    )
+  }
   render(){
     return (
       <View style={styles.container}>
-        <Text>{this.state.text}</Text>
+        {this.renderInfluencers()}
       </View>
     )
   }
 }
 
+mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchSetInfluencers: (influencers) => dispatch(setInfluencers(influencers))
+  }
+}
+
+mapStateToProps = (state) => {
+  return {
+    influencers: state.influencers.influencers
+  }
+}
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    paddingTop: 15,
+    backgroundColor: '#fff'
   }
-})
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InfluencerScreen);
