@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  Text,
   View,
   StyleSheet,
 } from 'react-native'
@@ -8,6 +7,8 @@ import {
 import { connect } from 'react-redux'
 
 import { setInfluencers } from '../actions/influencerActions'
+
+import { ListItem, CheckBox, Content, Container, Text, Body } from 'native-base'
 
 class InfluencerScreen extends React.Component {
 
@@ -22,19 +23,35 @@ class InfluencerScreen extends React.Component {
     }
   }
 
+
+
   renderInfluencers = () => {
-    const influencerItems = this.props.influencers.map( (influencer) => <Text key={influencer.sourceIndex}>{influencer.name}</Text>);
+    const influencers = this.props.influencers;
+    const influencerItems = influencers.map( (influencer) =>
+      <ListItem key={influencer.sourceIndex}>
+        <CheckBox checked={true} />
+        <Body>
+          <Text>{influencer.name}</Text>
+        </Body>
+      </ListItem>
+    );
+
     return (
-      <Text>
+      <Content>
+        <ListItem itemHeader>
+          <Body>
+            <Text>List of all available influencers</Text>
+          </Body>
+        </ListItem>
         {influencerItems}
-      </Text>
+      </Content>
     )
   }
   render(){
     return (
-      <View style={styles.container}>
+      <Container style={styles.container}>
         {this.renderInfluencers()}
-      </View>
+      </Container>
     )
   }
 }

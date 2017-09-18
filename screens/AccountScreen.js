@@ -36,14 +36,12 @@ class AccountScreen extends React.Component {
   }
 
   goToInfluencers = () => {
-    console.log('entered goToInfluencers()');
     getInfluencers().then( (influencerArray) => {
       for (let influencer of influencerArray){
         this.props.dispatchSetInfluencers(influencer)
       }
-      console.log('Influencers are', this.props.influencers);
+      this.props.navigation.navigate('Influencers')
     })
-    this.props.navigation.navigate('Influencers')
   }
 
   constructor(props){
