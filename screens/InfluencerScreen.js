@@ -25,33 +25,42 @@ class InfluencerScreen extends React.Component {
     }
   }
 
-  influencerSelected = (influencer) => {
-    for (let x = 0; x < this.props.user.influencers.length; x++){
-      if (influencerList[x].sourceIndex === influencer.sourceIndex){
-        return true;
+  getInfluencerIndex = (influencer) => {
+    let infList = this.props.user.influencers;
+    for (let x = 0; x < infList.length; x++){
+      if (infList[x].sourceIndex === influencer.sourceIndex){
+        return x
       }
     }
-    return false
+    return -1;
   }
 
-  addInfluencer = (influencer) => {
+  influencerExists = (influencer) => {
+    return this.getInfluencerIndex(influencer) > -1
+  }
+
+  clickedInfluencer = (influencer) => {
     let newArray = this.props.user.influencers;
     let currentUser = this.props.user
-    newArray.push(influencer);
+    if (this.influencerExists(influencer)){
+      newArray.splice(this.getInfluencerIndex(influencer), 1)
+    } else {
+      newArray.push(influencer);
+    }
     this.props.dispatchSetUser({
       tilt: currentUser.tilt,
       email: currentUser.email,
       _id: currentUser._id,
       influencers: newArray
     })
+    console.log('dispatched', this.props.user.influencers);
   }
 
 
-
   renderInfluencers = () => {
-    console.log('props on render', this.props);
     const influencerItems = this.props.influencers.map( (influencer) =>
-      <ListItem key={influencer.sourceIndex} button onPress={ () => {this.addInfluencer(influencer)}} >
+      <ListItem key={influencer.sourceIndex}>
+        <CheckBox checked={this.influencerExists(influencer)} onPress={ () => {this.clickedInfluencer(influencer)}} />
         <Body>
           <Text>{influencer.name}</Text>
         </Body>
