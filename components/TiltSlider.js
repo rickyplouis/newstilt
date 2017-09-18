@@ -47,7 +47,6 @@ class TiltSlider extends React.Component {
   }
 
   render(){
-    console.log('tiltProps', this.props);
     return (
       <Slider
         style={styles.sliderStyles}

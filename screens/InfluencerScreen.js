@@ -7,6 +7,7 @@ import {
 import { connect } from 'react-redux'
 
 import { setInfluencers } from '../actions/influencerActions'
+import { setUser } from '../actions/userActions'
 
 import { ListItem, CheckBox, Content, Container, Text, Body } from 'native-base'
 
@@ -19,17 +20,38 @@ class InfluencerScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      text: "Hello from influencer Screen"
+      text: "Hello from influencer Screen",
+      infList: []
     }
+  }
+
+  influencerSelected = (influencer) => {
+    for (let x = 0; x < this.props.user.influencers.length; x++){
+      if (influencerList[x].sourceIndex === influencer.sourceIndex){
+        return true;
+      }
+    }
+    return false
+  }
+
+  addInfluencer = (influencer) => {
+    let newArray = this.props.user.influencers;
+    let currentUser = this.props.user
+    newArray.push(influencer);
+    this.props.dispatchSetUser({
+      tilt: currentUser.tilt,
+      email: currentUser.email,
+      _id: currentUser._id,
+      influencers: newArray
+    })
   }
 
 
 
   renderInfluencers = () => {
-    const influencers = this.props.influencers;
-    const influencerItems = influencers.map( (influencer) =>
-      <ListItem key={influencer.sourceIndex}>
-        <CheckBox checked={true} />
+    console.log('props on render', this.props);
+    const influencerItems = this.props.influencers.map( (influencer) =>
+      <ListItem key={influencer.sourceIndex} button onPress={ () => {this.addInfluencer(influencer)}} >
         <Body>
           <Text>{influencer.name}</Text>
         </Body>
@@ -58,13 +80,15 @@ class InfluencerScreen extends React.Component {
 
 mapDispatchToProps = (dispatch) => {
   return {
+    dispatchSetUser: (user) => dispatch(setUser(user)),
     dispatchSetInfluencers: (influencers) => dispatch(setInfluencers(influencers))
   }
 }
 
 mapStateToProps = (state) => {
   return {
-    influencers: state.influencers.influencers
+    influencers: state.influencers.influencers,
+    user: state.user.user[state.user.user.length - 1]
   }
 }
 

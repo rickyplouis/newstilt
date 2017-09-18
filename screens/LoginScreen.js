@@ -48,11 +48,13 @@ class LoginScreen extends React.Component {
     })
   }
 
-  updateUserState = (email, _id, tilt) => {
+  updateUserState = (user) => {
+
     this.props.dispatchSetUser({
-      email,
-      _id,
-      tilt
+      email: user.email,
+      _id: user._id,
+      tilt: user.tilt,
+      influencers: user.influencers
     })
   }
 
@@ -97,7 +99,7 @@ class LoginScreen extends React.Component {
         response.json().then( (val) => {
           Promise.all([
             this.props.navigation.navigate('Home'),
-            this.updateUserState(val.user.email, val.user._id, val.user.tilt),
+            this.updateUserState(val.user),
             this.getCards()
           ])
         })
