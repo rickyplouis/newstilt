@@ -53,7 +53,6 @@ class InfluencerScreen extends React.Component {
       _id: currentUser._id,
       influencers: newArray
     })
-    console.log('dispatched', this.props.user.influencers);
   }
 
 
