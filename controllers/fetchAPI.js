@@ -1,12 +1,34 @@
 import { newsAPIKey, apiURL } from '../config/index';
 
 /**
+* Creates arrayOfCards
+* @param {Array} arrayOfArticles
+* @return {Promise}
+*/
+
+
+export function createCards(articles) {
+  let cardData = [];
+  return new Promise(function(resolve, reject) {
+    for (let article of articles){
+      cardData.push({
+        "header": article.title,
+        "author": article.author,
+        "image": article.urlToImage
+      })
+    }
+    resolve(cardData);
+  });
+}
+
+/**
 * Creates cards from newsAPI
 * @param {String} sourceIndex uniqueID for source
 * @return {Promise} resolve/reject(arrayOfCards)
 */
 
-export function getCardData(sourceIndex){
+
+export function getArticles(influencer){
     return new Promise(function(resolve, reject) {
       var getOptions = {
         method: 'get',
@@ -15,22 +37,13 @@ export function getCardData(sourceIndex){
           'Content-Type': 'application/json'
         }
       }
-      fetch('https://newsapi.org/v1/articles?source=' + sourceIndex + '&apiKey=' + newsAPIKey, getOptions).then( (response) => {
-        var cardData = [];
+      fetch('https://newsapi.org/v1/articles?source=' + influencer.sourceIndex + '&apiKey=' + newsAPIKey, getOptions).then( (response) => {
         if (response.status == 200){
           response.json().then( (res) => {
-            for (let article of res.articles){
-
-              cardData.push({
-                "header": article.title,
-                "author": article.author,
-                "image": article.urlToImage
-              })
-            }
-            resolve(cardData);
+            resolve(res.articles);
           })
         } else {
-          reject(cardData)
+          reject([])
         }
       })
     });

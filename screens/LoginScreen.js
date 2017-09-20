@@ -12,7 +12,7 @@ import SignupNavButton from '../components/SignupNavButton'
 
 import { Container, Content, Form, Item, Input, Label, Button } from 'native-base';
 
-import { getCardData, getInfluencers} from '../controllers/fetchAPI'
+import { getArticles, getInfluencers, createCards} from '../controllers/fetchAPI'
 
 import { apiURL } from '../config/index.js'
 
@@ -61,15 +61,17 @@ class LoginScreen extends React.Component {
   getCards = (influencer) => {
     getInfluencers().then( (influencerArray) => {
       for (let influencer of influencerArray){
-        getCardData(influencer.sourceIndex).then( (cardArray) => {
-          //for (let card of cardArray){
-//          card.logo = influencer.logo
-//          this.props.dispatchSetCards(card);
-          //Load less cards to speed up testing
-          for (let x = 0; x < 3; x++){
-            cardArray[x].logo = influencer.logo;
-            this.props.dispatchSetCards(cardArray[x])
-          }
+        getArticles(influencer).then( (articleArray) => {
+          createCards(articleArray).then( (cardArray) => {
+            //for (let card of cardArray){
+            //card.logo = influencer.logo
+            //this.props.dispatchSetCards(card);
+            //Load less cards to speed up testing
+            for (let x = 0; x < 3; x++){
+              cardArray[x].logo = influencer.logo;
+              this.props.dispatchSetCards(cardArray[x])
+            }
+          })
         })
       }
     })
