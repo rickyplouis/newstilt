@@ -1,6 +1,7 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text} from 'react-native'
-import FeedList from '../components/FeedList'
+import {ScrollView, StyleSheet} from 'react-native'
+
+import {Container, List, ListItem, Thumbnail, Body, Text, Content } from 'native-base'
 
 import { connect } from 'react-redux'
 
@@ -8,15 +9,50 @@ import { getArticles } from '../controllers/fetchAPI'
 
 import { setUser } from '../actions/userActions'
 
+const articleData = [
+  {
+    _id: 'Aye',
+    title: 'First Article',
+    body: 'Desc for first article'
+  },
+  {
+    _id: 'Bay',
+    title: 'Second Article',
+    body: 'Desc for second article'
+  }
+]
+
 class FeedScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    title: 'NewsFeed',
   };
+
+
+  renderArticles = () => {
+    const articleFeed = articleData.map( (article) =>
+      <ListItem key={article._id}>
+        <Thumbnail square size={80} source={require('../assets/images/robot-prod.png')}  />
+        <Body>
+          <Text> {article.title} </Text>
+          <Text note> {article.body} </Text>
+        </Body>
+      </ListItem>
+    )
+    return (
+      <List>
+        {articleFeed}
+      </List>
+    )
+  }
 
   render() {
     console.log('FeedScreen props', this.props.user);
     return (
-      <FeedList></FeedList>
+      <Container>
+        <Content>
+          {this.renderArticles()}
+        </Content>
+      </Container>
     );
   }
 }
