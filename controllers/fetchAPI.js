@@ -1,6 +1,35 @@
 import { newsAPIKey, apiURL } from '../config/index';
 
 /**
+* Make Fetch Request
+* @param {url} APIendpoint
+* @param {object} fetchOptions
+* @return {Promise}
+*/
+
+function fetchRequest(url, options){
+  return new Promise(function(resolve, reject) {
+    fetch(url, options).then( (response) => {
+      if (response.status == 200){
+        response.json().then( (res) => {
+          resolve(res)
+        })
+      } else {
+        resolve([])
+      }
+    })
+  });
+}
+
+var getOptions = {
+  method: 'get',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  }
+}
+
+/**
 * Creates arrayOfCards
 * @param {Array} arrayOfArticles
 * @return {Promise}
@@ -30,21 +59,9 @@ export function createCards(articles) {
 
 export function getArticles(influencer){
     return new Promise(function(resolve, reject) {
-      var getOptions = {
-        method: 'get',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-      fetch('https://newsapi.org/v1/articles?source=' + influencer.sourceIndex + '&apiKey=' + newsAPIKey, getOptions).then( (response) => {
-        if (response.status == 200){
-          response.json().then( (res) => {
-            resolve(res.articles);
-          })
-        } else {
-          reject([])
-        }
+      let url = 'https://newsapi.org/v1/articles?source=' + influencer.sourceIndex + '&apiKey=' + newsAPIKey
+      fetchRequest(url, getOptions).then( (response) => {
+        resolve(response.articles);
       })
     });
   }
@@ -56,22 +73,9 @@ export function getArticles(influencer){
 
 export function getInfluencers(){
     return new Promise(function(resolve, reject) {
-      var getOptions = {
-        method: 'get',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-      fetch(apiURL + '/api/influencers', getOptions).then( (response) => {
-        var cardData = [];
-        if (response.status == 200){
-          response.json().then( (res) => {
-            resolve(res);
-          })
-        } else {
-          reject(cardData)
-        }
+      let url = apiURL + '/api/influencers'
+      fetchRequest(url, getOptions).then( (response) => {
+        resolve(response);
       })
     });
   }
