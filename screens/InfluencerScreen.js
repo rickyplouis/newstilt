@@ -11,6 +11,8 @@ import { setUser } from '../actions/userActions'
 
 import { ListItem, CheckBox, Content, Container, Text, Body } from 'native-base'
 
+import { updateInfluencers } from '../controllers/fetchUser'
+
 class InfluencerScreen extends React.Component {
 
   static navigationOptions = {
@@ -28,7 +30,7 @@ class InfluencerScreen extends React.Component {
   getInfluencerIndex = (influencer) => {
     let infList = this.props.user.influencers;
     for (let x = 0; x < infList.length; x++){
-      if (infList[x].sourceIndex === influencer.sourceIndex){
+      if (infList[x] === influencer.sourceIndex){
         return x
       }
     }
@@ -39,20 +41,28 @@ class InfluencerScreen extends React.Component {
     return this.getInfluencerIndex(influencer) > -1
   }
 
+  dispatchUser = (user, array) => {
+    this.props.dispatchSetUser({
+      tilt: user.tilt,
+      email: user.email,
+      _id: user._id,
+      influencers: array
+    })
+  }
+
   clickedInfluencer = (influencer) => {
     let newArray = this.props.user.influencers;
     let currentUser = this.props.user
     if (this.influencerExists(influencer)){
       newArray.splice(this.getInfluencerIndex(influencer), 1)
     } else {
-      newArray.push(influencer);
+      newArray.push(influencer.sourceIndex);
     }
-    this.props.dispatchSetUser({
-      tilt: currentUser.tilt,
-      email: currentUser.email,
-      _id: currentUser._id,
-      influencers: newArray
-    })
+
+    Promise.all([
+      this.dispatchUser(currentUser, newArray),
+      updateInfluencers(currentUser, newArray)
+    ])
   }
 
 
