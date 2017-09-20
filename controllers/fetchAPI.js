@@ -57,9 +57,9 @@ export function createCards(articles) {
 */
 
 
-export function getArticles(influencer){
+export function getArticles(sourceIndex){
     return new Promise(function(resolve, reject) {
-      let url = 'https://newsapi.org/v1/articles?source=' + influencer.sourceIndex + '&apiKey=' + newsAPIKey
+      let url = 'https://newsapi.org/v1/articles?source=' + sourceIndex + '&apiKey=' + newsAPIKey
       fetchRequest(url, getOptions).then( (response) => {
         resolve(response.articles);
       })

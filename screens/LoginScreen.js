@@ -50,10 +50,10 @@ class LoginScreen extends React.Component {
     })
   }
 
-  getCards = () => {
+  createCards = () => {
     getInfluencers().then( (influencerArray) => {
       for (let influencer of influencerArray){
-        getArticles(influencer).then( (articleArray) => {
+        getArticles(influencer.sourceIndex).then( (articleArray) => {
           createCards(articleArray).then( (cardArray) => {
             //For the sake of speed load less cards
             for (let x = 0; x < 3; x++){
@@ -64,6 +64,17 @@ class LoginScreen extends React.Component {
         })
       }
     })
+  }
+
+  createFeed = (indexArray) => {
+    var articles = [];
+    for (let index of indexArray){
+      getArticles(index).then( (articleArray) => {
+        for (let article of articleArray){
+          this.props.dispatchSetArticles(article);
+        }
+      })
+    }
   }
 
   login = () => {
@@ -107,7 +118,8 @@ class LoginScreen extends React.Component {
         Promise.all([
           this.props.navigation.navigate('Home'),
           this.updateUserState(val.user),
-          this.getCards()
+          this.createCards(),
+          this.createFeed(val.user.influencers)
         ])
       })
     }

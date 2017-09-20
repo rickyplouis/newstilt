@@ -8,19 +8,7 @@ import { connect } from 'react-redux'
 import { getArticles } from '../controllers/fetchAPI'
 
 import { setUser } from '../actions/userActions'
-
-const articleData = [
-  {
-    _id: 'Aye',
-    title: 'First Article',
-    body: 'Desc for first article'
-  },
-  {
-    _id: 'Bay',
-    title: 'Second Article',
-    body: 'Desc for second article'
-  }
-]
+import { setArticles } from '../actions/articleActions'
 
 class FeedScreen extends React.Component {
   static navigationOptions = {
@@ -29,12 +17,12 @@ class FeedScreen extends React.Component {
 
 
   renderArticles = () => {
-    const articleFeed = articleData.map( (article) =>
-      <ListItem key={article._id}>
+    const articleFeed = this.props.articles.map( (article) =>
+      <ListItem key={article.url}>
         <Thumbnail square size={80} source={require('../assets/images/robot-prod.png')}  />
         <Body>
           <Text> {article.title} </Text>
-          <Text note> {article.body} </Text>
+          <Text note> {article.description} </Text>
         </Body>
       </ListItem>
     )
@@ -46,7 +34,6 @@ class FeedScreen extends React.Component {
   }
 
   render() {
-    console.log('FeedScreen props', this.props.user);
     return (
       <Container>
         <Content>
@@ -67,13 +54,15 @@ const styles = StyleSheet.create({
 
 mapDispatchToProps = (dispatch) => {
   return {
-    dispatchSetUser: (user) => dispatch(setUser(user))
+    dispatchSetUser: (user) => dispatch(setUser(user)),
+    dispatchSetArticles: (articles) => dispatch(setArticles(articles))
   }
 }
 
 mapStateToProps = (state) => {
   return {
-    user: state.user.user[state.user.user.length - 1]
+    user: state.user.user[state.user.user.length - 1],
+    articles: state.articles.articles
   }
 }
 
