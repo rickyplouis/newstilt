@@ -6,6 +6,7 @@ import MainTabNavigator from './MainTabNavigator';
 import LoginScreen  from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
 import InfluencerScreen from '../screens/InfluencerScreen'
+import FeedScreen from '../screens/FeedScreen'
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
 const RootStackNavigator = StackNavigator(
@@ -21,6 +22,9 @@ const RootStackNavigator = StackNavigator(
     },
     Influencers: {
       screen: InfluencerScreen
+    },
+    Feed: {
+      screen: FeedScreen
     }
   },
   {
