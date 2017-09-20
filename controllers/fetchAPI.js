@@ -51,7 +51,7 @@ export function createCards(articles) {
 }
 
 /**
-* Creates cards from newsAPI
+* Gets articles by sourceIndex
 * @param {String} sourceIndex uniqueID for source
 * @return {Promise} resolve/reject(arrayOfCards)
 */
@@ -72,10 +72,10 @@ export function getArticles(influencer){
 */
 
 export function getInfluencers(){
-    return new Promise(function(resolve, reject) {
-      let url = apiURL + '/api/influencers'
-      fetchRequest(url, getOptions).then( (response) => {
-        resolve(response);
-      })
-    });
-  }
+  return new Promise(function(resolve, reject) {
+    let url = apiURL + '/api/influencers'
+    fetchRequest(url, getOptions).then( (response) => {
+      resolve(response);
+    })
+  });
+}

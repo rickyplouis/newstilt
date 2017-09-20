@@ -20,6 +20,7 @@ import { apiURL } from '../config/index.js'
 import { connect } from 'react-redux';
 import { setUser } from '../actions/userActions'
 import { setCards } from '../actions/cardActions'
+import { setArticles } from '../actions/articleActions'
 
 class LoginScreen extends React.Component {
 
@@ -40,16 +41,7 @@ class LoginScreen extends React.Component {
     }
   }
 
-  setUser = () => {
-    if (this.state.inputValue === '') return;
-
-    this.setState({
-      inputValue: this.state.inputValue += 'AY'
-    })
-  }
-
   updateUserState = (user) => {
-
     this.props.dispatchSetUser({
       email: user.email,
       _id: user._id,
@@ -58,15 +50,12 @@ class LoginScreen extends React.Component {
     })
   }
 
-  getCards = (influencer) => {
+  getCards = () => {
     getInfluencers().then( (influencerArray) => {
       for (let influencer of influencerArray){
         getArticles(influencer).then( (articleArray) => {
           createCards(articleArray).then( (cardArray) => {
-            //for (let card of cardArray){
-            //card.logo = influencer.logo
-            //this.props.dispatchSetCards(card);
-            //Load less cards to speed up testing
+            //For the sake of speed load less cards
             for (let x = 0; x < 3; x++){
               cardArray[x].logo = influencer.logo;
               this.props.dispatchSetCards(cardArray[x])
@@ -76,11 +65,6 @@ class LoginScreen extends React.Component {
       }
     })
   }
-
-  fetchInfluencers = () => {
-    getInfluencers()
-  }
-
 
   login = () => {
     var postOptions = {
@@ -96,38 +80,44 @@ class LoginScreen extends React.Component {
       })
     }
 
+    handleError = (response) => {
+      response.json().then( (val) => {
+        const err = val.description[0];
+        switch (err) {
+          case 'no user found':
+            this.setState({
+              email: "",
+              emailInvalid: true,
+              emailMessage: err
+            })
+            break;
+          case 'Wrong password':
+            this.setState({
+              password: "",
+              passwordInvalid: true,
+              passMessage: err
+            })
+          default:
+        }
+      })
+    }
+
+    handleSuccess = (response) => {
+      response.json().then( (val) => {
+        Promise.all([
+          this.props.navigation.navigate('Home'),
+          this.updateUserState(val.user),
+          this.getCards()
+        ])
+      })
+    }
+
     fetch( apiURL + '/login', postOptions).then( (response) => {
       if (response.status == 200){
-        response.json().then( (val) => {
-          Promise.all([
-            this.props.navigation.navigate('Home'),
-            this.updateUserState(val.user),
-            this.getCards()
-          ])
-        })
+        handleSuccess(response);
       } else {
-        response.json().then( (val) => {
-          const err = val.description[0];
-          switch (err) {
-            case 'no user found':
-              this.setState({
-                email: "",
-                emailInvalid: true,
-                emailMessage: err
-              })
-              break;
-            case 'Wrong password':
-              this.setState({
-                password: "",
-                passwordInvalid: true,
-                passMessage: err
-              })
-            default:
-          }
-        })
+        handleError(response);
       }
-    }).catch( (error) => {
-      console.log('error', error);
     })
   }
 
@@ -164,14 +154,16 @@ class LoginScreen extends React.Component {
 function mapStateToProps (state) {
   return {
     user: state.user.user[0],
-    cards: state.cards.cards[0]
+    cards: state.cards.cards[0],
+    articles: state.articles.articles[0]
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
     dispatchSetUser: (user) => dispatch(setUser(user)),
-    dispatchSetCards: (cards) => dispatch(setCards(cards))
+    dispatchSetCards: (cards) => dispatch(setCards(cards)),
+    dispatchSetArticles: (articles) => dispatch(setArticles(articles))
   }
 }
 
