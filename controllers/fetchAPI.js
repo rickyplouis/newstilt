@@ -43,7 +43,8 @@ export function createCards(articles) {
       cardData.push({
         "header": article.title,
         "author": article.author,
-        "image": article.urlToImage
+        "image": article.urlToImage,
+        "url": article.url
       })
     }
     resolve(cardData);
