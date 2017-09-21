@@ -15,6 +15,9 @@ class FeedScreen extends React.Component {
     title: 'NewsFeed',
   };
 
+  renderThumbnail = (imageUrl) => {
+    return imageUrl && <Thumbnail square size={80} source={{uri: imageUrl}}  />
+  }
 
   renderArticles = () => {
     //currently this.props spits out 5 arrays of articles
@@ -26,7 +29,7 @@ class FeedScreen extends React.Component {
     let index = 0;
     const articleFeed = flattenedArray.map( (article) =>
       <ListItem key={index+= 1} button={true}>
-        <Thumbnail square size={80} source={{uri: article.urlToImage}}  />
+        {this.renderThumbnail(article.urlToImage)}
         <Body>
           <Text> {article.title} </Text>
           <Text note> {article.description} </Text>

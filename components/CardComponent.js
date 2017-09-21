@@ -21,7 +21,6 @@ export default class CardComponent extends React.Component {
   }
 
   _handlePressButtonAsync = async (url) => {
-    console.log('input url', url);
     let result = await WebBrowser.openBrowserAsync(url);
     this.setState({ result });
   };
@@ -38,6 +37,13 @@ export default class CardComponent extends React.Component {
       : <Text note>{text}</Text>
   }
 
+  renderThumbnail = (imageUrl) => {
+    return imageUrl && <Thumbnail source={{uri: imageUrl}}/>
+  }
+
+  renderImageBody = (imageUrl) => {
+    return imageUrl && <Image style={{ height: 300, flex: 1 }} source={{uri: imageUrl}} />
+  }
 
   render(){
     const content = this.props.content;
@@ -45,7 +51,7 @@ export default class CardComponent extends React.Component {
         <Card style={{ elevation: 3 }}>
           <CardItem>
             <Left>
-              <Thumbnail source={{uri: content.image}} />
+              {this.renderThumbnail(content.image)}
               <Body>
                 {this.renderHeader(content.title)}
                 {this.renderAuthor(content.author)}
@@ -53,7 +59,7 @@ export default class CardComponent extends React.Component {
             </Left>
           </CardItem>
           <CardItem cardBody>
-            <Image style={{ height: 300, flex: 1 }} source={{uri: content.image}} />
+            {this.renderImageBody(content.image)}
           </CardItem>
           <CardItem >
             <Left>
