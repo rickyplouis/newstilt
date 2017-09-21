@@ -9,7 +9,7 @@ import { Container, View, DeckSwiper,
 
 import { connect } from 'react-redux'
 import CardComponent from './CardComponent'
-import { postArticle, postTilt } from '../controllers/fetchAPI'
+import { postArticle, postTilt, putInfluencer } from '../controllers/fetchAPI'
 
 class SwiperComponent extends React.Component {
 
@@ -28,10 +28,10 @@ constructor(props){
   }
 }
 
-swipeLeft = (card) => {
+handleSwipe = (card, direction) => {
   var tilt = {
-    "left": true,
-    "right": false,
+    "left": direction == 'left',
+    "right": direction == 'right',
     "up": false,
     "down": false,
     "_p_article": card.url,
@@ -41,24 +41,8 @@ swipeLeft = (card) => {
 
   return Promise.all([
     postArticle(card),
-    postTilt(tilt)
-  ])
-}
-
-swipeRight = (card) => {
-  var tilt = {
-    "left": false,
-    "right": true,
-    "up": false,
-    "down": false,
-    "_p_article": card.url,
-    "_p_user": this.props.user._id,
-    "_p_influencer": card.influencer,
-  }
-
-  return Promise.all([
-    postArticle(card),
-    postTilt(tilt)
+    postTilt(tilt),
+    putInfluencer(card.influencer, direction)
   ])
 }
 
@@ -74,8 +58,8 @@ renderCard = (item) => {
       <Container>
         <View>
           <DeckSwiper
-            onSwipeLeft={(card) => this.swipeLeft(card)}
-            onSwipeRight={(card) => this.swipeRight(card)}
+            onSwipeLeft={(card) => this.handleSwipe(card, 'left')}
+            onSwipeRight={(card) => this.handleSwipe(card, 'right')}
             dataSource={this.props.cards}
             renderItem={item => this.renderCard(item)}
           />

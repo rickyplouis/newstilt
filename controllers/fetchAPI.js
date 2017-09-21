@@ -156,3 +156,22 @@ export function postTilt(tilt){
     })
   });
 }
+
+export function putInfluencer(sourceIndex, swipeDirection){
+  var putOptions = {
+    method: 'put',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }
+
+  return new Promise(function(resolve, reject) {
+    //Sample URL:
+    //https://newstiltapi.com/api/influencers/sourceIndex=buzzfeed&leftCount=true
+    let url = apiURL + '/api/influencers?sourceIndex=' + sourceIndex + '&' + swipeDirection + 'Count=true'
+    fetchRequest(url, putOptions).then( (response) => {
+      resolve(response)
+    })
+  });
+}
