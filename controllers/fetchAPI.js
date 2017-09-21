@@ -88,21 +88,9 @@ export function getInfluencers(){
 }
 
 /**
-* Posts article to api
+* Posts Article to NewsTiltAPI.com
 * @param {Object} articleObject
 * @return {Promise} resolve/reject
-
-    publishedAt: Date,
-    author: String,
-    description: String,
-    title: String,
-    url: String,
-    urlToImage: String,
-    _p_influencer: String,
-    _created_at: Date,
-    _updated_at: Date
-
-*
 */
 
 export function postArticle(article){
@@ -128,6 +116,41 @@ export function postArticle(article){
 
   return new Promise(function(resolve, reject) {
     let url = apiURL + '/api/articles'
+    fetchRequest(url, postOptions).then( (response) => {
+      resolve(response)
+    })
+  });
+}
+
+/**
+* Posts Tilt to NewsTiltAPI.com
+* @param {Object} tiltObject
+* @return {Promise} resolve/reject
+*/
+
+export function postTilt(tilt){
+
+  var postOptions = {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "left": tilt.left,
+      "right": tilt.right,
+      "up": tilt.up,
+      "down": tilt.down,
+      "_p_article": tilt._p_article,
+      "_p_user": tilt._p_user,
+      "_p_influencer": tilt._p_influencer,
+      "_created_at": new Date(),
+      "_updated_at": new Date()
+    })
+  }
+
+  return new Promise(function(resolve, reject) {
+    let url = apiURL + '/api/tilts'
     fetchRequest(url, postOptions).then( (response) => {
       resolve(response)
     })
