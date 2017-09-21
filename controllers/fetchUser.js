@@ -71,7 +71,6 @@ export function updateInfluencers(user, indexArray){
       }
     }
     convertToCSV(indexArray).then( (influencerCSV) => {
-      console.log('influencerCSV', influencerCSV);
       fetch( apiURL + '/api/users?id=' + user._id + '&influencers=' + influencerCSV, postOptions).then( (response) => {
         if (response.status == 200){
           response.json().then( (val) => {

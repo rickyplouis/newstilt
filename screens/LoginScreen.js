@@ -70,9 +70,7 @@ class LoginScreen extends React.Component {
     var articles = [];
     for (let index of indexArray){
       getArticles(index).then( (articleArray) => {
-        for (let article of articleArray){
-          this.props.dispatchSetArticles(article);
-        }
+        this.props.dispatchSetArticles(articleArray);
       })
     }
   }
@@ -118,9 +116,10 @@ class LoginScreen extends React.Component {
         Promise.all([
           this.props.navigation.navigate('Home'),
           this.updateUserState(val.user),
-          this.createCards(),
+          this.createCards()
+        ]).then( () => {
           this.createFeed(val.user.influencers)
-        ])
+        })
       })
     }
 
@@ -167,7 +166,7 @@ function mapStateToProps (state) {
   return {
     user: state.user.user[0],
     cards: state.cards.cards[0],
-    articles: state.articles.articles[0]
+    articles: state.articles.articles
   }
 }
 

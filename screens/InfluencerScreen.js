@@ -67,8 +67,9 @@ class InfluencerScreen extends React.Component {
 
 
   renderInfluencers = () => {
+    let index = 0;
     const influencerItems = this.props.influencers.map( (influencer) =>
-      <ListItem key={influencer.sourceIndex}>
+      <ListItem key={index += 1}>
         <CheckBox checked={this.influencerExists(influencer)} onPress={ () => {this.clickedInfluencer(influencer)}} />
         <Body>
           <Text>{influencer.name}</Text>
@@ -90,7 +91,7 @@ class InfluencerScreen extends React.Component {
   render(){
     return (
       <Container style={styles.container}>
-        {this.renderInfluencers()}
+          { this.renderInfluencers() }
       </Container>
     )
   }

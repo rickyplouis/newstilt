@@ -17,9 +17,16 @@ class FeedScreen extends React.Component {
 
 
   renderArticles = () => {
-    const articleFeed = this.props.articles.map( (article) =>
-      <ListItem key={article.url}>
-        <Thumbnail square size={80} source={require('../assets/images/robot-prod.png')}  />
+    //currently this.props spits out 5 arrays of articles
+    //in the future need to set this.props.articles to one big array
+    //rather than reduce it here but for now, yolo
+    const flattenedArray = this.props.articles.reduce( (a, b) => {
+      return a.concat(b)
+    }, [])
+    let index = 0;
+    const articleFeed = flattenedArray.map( (article) =>
+      <ListItem key={index+= 1} button={true}>
+        <Thumbnail square size={80} source={{uri: article.urlToImage}}  />
         <Body>
           <Text> {article.title} </Text>
           <Text note> {article.description} </Text>
