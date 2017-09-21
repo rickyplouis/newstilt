@@ -9,6 +9,7 @@ import { Container, View, DeckSwiper,
 
 import { connect } from 'react-redux'
 import CardComponent from './CardComponent'
+import { postArticle } from '../controllers/fetchAPI'
 
 class SwiperComponent extends React.Component {
 
@@ -27,6 +28,20 @@ constructor(props){
   }
 }
 
+swipeLeft = (card) => {
+  return Promise.all([
+    postArticle(card)
+  ])
+  console.log('card is', card);
+}
+
+swipeRight = (card) => {
+  return Promise.all([
+    postArticle(card)
+  ])
+  console.log('card is', card);
+}
+
 renderCard = (item) => {
   return (
     <CardComponent content={item} />
@@ -39,6 +54,8 @@ renderCard = (item) => {
       <Container>
         <View>
           <DeckSwiper
+            onSwipeLeft={(card) => this.swipeLeft(card)}
+            onSwipeRight={(card) => this.swipeRight(card)}
             dataSource={this.props.cards}
             renderItem={item => this.renderCard(item)}
           />

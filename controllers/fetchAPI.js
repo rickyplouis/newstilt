@@ -29,6 +29,8 @@ var getOptions = {
   }
 }
 
+
+
 /**
 * Creates arrayOfCards
 * @param {Array} arrayOfArticles
@@ -41,10 +43,14 @@ export function createCards(articles) {
   return new Promise(function(resolve, reject) {
     for (let article of articles){
       cardData.push({
-        "header": article.title,
+        "title": article.title,
         "author": article.author,
         "image": article.urlToImage,
-        "url": article.url
+        "url": article.url,
+        "_p_influencer": article._p_influencer,
+        "description": article.description,
+        "publishedAt": article.publishedAt
+
       })
     }
     resolve(cardData);
@@ -77,6 +83,53 @@ export function getInfluencers(){
     let url = apiURL + '/api/influencers'
     fetchRequest(url, getOptions).then( (response) => {
       resolve(response);
+    })
+  });
+}
+
+/**
+* Posts article to api
+* @param {Object} articleObject
+* @return {Promise} resolve/reject
+
+    publishedAt: Date,
+    author: String,
+    description: String,
+    title: String,
+    url: String,
+    urlToImage: String,
+    _p_influencer: String,
+    _created_at: Date,
+    _updated_at: Date
+
+*
+*/
+
+export function postArticle(article){
+
+  var postOptions = {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "publishedAt": article.publishedAt,
+      "author": article.author,
+      "description": article.description,
+      "title": article.title,
+      "url": article.url,
+      "urlToImage": article.urlToImage,
+      "_p_influencer": article._p_influencer,
+      "_created_at": new Date(),
+      "_updated_at": new Date()
+    })
+  }
+
+  return new Promise(function(resolve, reject) {
+    let url = apiURL + '/api/articles'
+    fetchRequest(url, postOptions).then( (response) => {
+      resolve(response)
     })
   });
 }

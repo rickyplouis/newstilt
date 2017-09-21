@@ -27,13 +27,13 @@ export default class CardComponent extends React.Component {
   };
 
   renderHeader = (text) => {
-    return text.length > 30
+    return text && text.length > 30
     ? <Text>{text.substring(0,30) + '...'}</Text>
     : <Text>{text}</Text>
   }
 
   renderAuthor = (text) => {
-    return text.length > 30
+    return text && text.length > 30
       ? <Text note>{text.substring(0,30) + '...'}</Text>
       : <Text note>{text}</Text>
   }
@@ -41,15 +41,14 @@ export default class CardComponent extends React.Component {
 
   render(){
     const content = this.props.content;
-    console.log('content is', content);
     return (
         <Card style={{ elevation: 3 }}>
           <CardItem>
             <Left>
               <Thumbnail source={{uri: content.image}} />
               <Body>
-                {this.renderHeader(content.header)}
-                {this.renderAuthor(content.author, true)}
+                {this.renderHeader(content.title)}
+                {this.renderAuthor(content.author)}
               </Body>
             </Left>
           </CardItem>

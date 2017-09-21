@@ -58,6 +58,7 @@ class LoginScreen extends React.Component {
             //For the sake of speed load less cards
             for (let x = 0; x < 3; x++){
               cardArray[x].logo = influencer.logo;
+              cardArray[x]._p_influencer = influencer.sourceIndex
               this.props.dispatchSetCards(cardArray[x])
             }
           })
