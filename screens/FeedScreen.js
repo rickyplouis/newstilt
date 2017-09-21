@@ -1,7 +1,7 @@
 import React from 'react';
 import {ScrollView, StyleSheet} from 'react-native'
 
-import {Container, List, ListItem, Thumbnail, Body, Text, Content } from 'native-base'
+import {Container, Card, CardItem, Left, Thumbnail, Body, Text, Content } from 'native-base'
 
 import { connect } from 'react-redux'
 
@@ -10,10 +10,21 @@ import { getArticles } from '../controllers/fetchAPI'
 import { setUser } from '../actions/userActions'
 import { setArticles } from '../actions/articleActions'
 
+import {Constants, WebBrowser} from 'expo'
+
 class FeedScreen extends React.Component {
   static navigationOptions = {
     title: 'NewsFeed',
   };
+
+  _handlePressButtonAsync = async (url) => {
+    let result = await WebBrowser.openBrowserAsync(url);
+    this.setState({ result });
+  };
+
+  truncateText = (text) => {
+    return text.length > 20 ? text.substring(0,45) + '...' : text;
+  }
 
   renderThumbnail = (imageUrl) => {
     return imageUrl && <Thumbnail square size={80} source={{uri: imageUrl}}  />
@@ -28,18 +39,20 @@ class FeedScreen extends React.Component {
     }, [])
     let index = 0;
     const articleFeed = flattenedArray.map( (article) =>
-      <ListItem key={index+= 1} button={true}>
-        {this.renderThumbnail(article.urlToImage)}
-        <Body>
-          <Text> {article.title} </Text>
-          <Text note> {article.description} </Text>
-        </Body>
-      </ListItem>
+      <CardItem key={index+= 1} button={true} onPress={ () => this._handlePressButtonAsync(article.url)}>
+        <Left>
+            {this.renderThumbnail(article.urlToImage)}
+          <Body>
+            <Text> {this.truncateText(article.title)} </Text>
+            <Text note> {this.truncateText(article.description)} </Text>
+          </Body>
+        </Left>
+      </CardItem>
     )
     return (
-      <List>
+      <Card>
         {articleFeed}
-      </List>
+      </Card>
     )
   }
 
