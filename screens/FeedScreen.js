@@ -24,7 +24,7 @@ class FeedScreen extends React.Component {
   };
 
   truncateText = (text) => {
-    return text.length > 20 ? text.substring(0,45) + '...' : text;
+    return text && text.length > 20 ? text.substring(0,45) + '...' : text;
   }
 
   renderThumbnail = (imageUrl) => {

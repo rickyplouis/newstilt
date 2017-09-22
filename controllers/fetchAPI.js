@@ -30,33 +30,6 @@ var getOptions = {
 }
 
 
-
-/**
-* Creates arrayOfCards
-* @param {Array} arrayOfArticles
-* @return {Promise}
-*/
-
-
-export function createCards(articles) {
-  let cardData = [];
-  return new Promise(function(resolve, reject) {
-    for (let article of articles){
-      cardData.push({
-        "title": article.title,
-        "author": article.author,
-        "image": article.urlToImage,
-        "url": article.url,
-        "_p_influencer": article._p_influencer,
-        "description": article.description,
-        "publishedAt": article.publishedAt
-
-      })
-    }
-    resolve(cardData);
-  });
-}
-
 /**
 * Gets articles by sourceIndex
 * @param {String} sourceIndex uniqueID for source

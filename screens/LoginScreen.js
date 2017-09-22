@@ -12,7 +12,11 @@ import SignupNavButton from '../components/SignupNavButton'
 
 import { Container, Content, Form, Item, Input, Label, Button } from 'native-base';
 
-import { getArticles, getInfluencers, createCards} from '../controllers/fetchAPI'
+import { getArticles} from '../controllers/fetchAPI'
+
+import { getQuartile } from '../controllers/rank'
+
+import { createCardArray} from '../controllers/cards'
 
 import { apiURL } from '../config/index.js'
 
@@ -50,19 +54,12 @@ class LoginScreen extends React.Component {
     })
   }
 
-  createCards = () => {
-    getInfluencers().then( (influencerArray) => {
-      for (let influencer of influencerArray){
-        getArticles(influencer.sourceIndex).then( (articleArray) => {
-          createCards(articleArray).then( (cardArray) => {
-            //For the sake of speed load less cards
-            for (let x = 0; x < 3; x++){
-              cardArray[x].logo = influencer.logo;
-              cardArray[x]._p_influencer = influencer.sourceIndex
-              this.props.dispatchSetCards(cardArray[x])
-            }
-          })
-        })
+
+  createCards = (user) => {
+    createCardArray(user).then( (cardArray) => {
+      //For the sake of speed load 3 cards per influencer
+      for (let x = 0; x < 3; x++){
+        this.props.dispatchSetCards(cardArray[x])
       }
     })
   }
@@ -117,7 +114,7 @@ class LoginScreen extends React.Component {
         Promise.all([
           this.props.navigation.navigate('Home'),
           this.updateUserState(val.user),
-          this.createCards()
+          this.createCards(val.user)
         ]).then( () => {
           this.createFeed(val.user.influencers)
         })
