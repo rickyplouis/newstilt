@@ -29,6 +29,7 @@ class AccountScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Account',
+    headerLeft: null
   };
 
   usingIOS = () => {

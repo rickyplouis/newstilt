@@ -62,26 +62,13 @@ export default class CardComponent extends React.Component {
             {this.renderImageBody(content.image)}
           </CardItem>
           <CardItem >
-            <Left>
-              <Button iconLeft transparent onPress={this.flagged}>
-                <Icon name="ios-flag" />
-                <Text>Flag</Text>
-              </Button>
-            </Left>
             <Body>
-              <Button iconLeft transparent onPress={ () => {
+              <Button block transparent onPress={ () => {
                   this._handlePressButtonAsync(content.url)
                 }}>
-                <Icon name="ios-eye" />
-                <Text>View</Text>
+                <Text>Read Article</Text>
               </Button>
             </Body>
-            <Right>
-              <Button iconLeft transparent onPress={this.flagged}>
-                <Icon name="ios-heart" style={{color: 'red'}} />
-                <Text>Favorite</Text>
-              </Button>
-            </Right>
           </CardItem>
         </Card>
     )

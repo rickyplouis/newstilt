@@ -15,6 +15,7 @@ import {Constants, WebBrowser} from 'expo'
 class FeedScreen extends React.Component {
   static navigationOptions = {
     title: 'NewsFeed',
+    headerLeft: null
   };
 
   _handlePressButtonAsync = async (url) => {
