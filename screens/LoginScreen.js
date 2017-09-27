@@ -137,7 +137,7 @@ class LoginScreen extends React.Component {
           <Content>
             <Form>
               <Item stackedLabel error={this.state.emailInvalid}>
-                <Label>Email:</Label>
+                <Label>Email</Label>
                 <Input placeholder={this.state.emailMessage} value={this.state.email} autoCapitalize={'none'} onChangeText={(emailInput) => this.setState({"email": emailInput , "emailInvalid": false})} />
               </Item>
               <Item stackedLabel error={this.state.passwordInvalid} last>
