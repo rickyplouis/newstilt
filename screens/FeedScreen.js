@@ -24,11 +24,16 @@ class FeedScreen extends React.Component {
   };
 
   truncateText = (text) => {
-    return text && text.length > 20 ? text.substring(0,45) + '...' : text;
-  }
+    if (text){
+        return text.length > 20 ? text.substring(0,45) + '...' : text;
+      } else {
+        return "";
+      }
+    }
 
   renderThumbnail = (imageUrl) => {
-    return imageUrl && <Thumbnail square size={80} source={{uri: imageUrl}}  />
+    let renderPath = imageUrl ? {'uri': imageUrl} : require('../assets/images/robot-dev.png')
+    return <Thumbnail square size={80} source={renderPath}  />
   }
 
   renderArticles = () => {

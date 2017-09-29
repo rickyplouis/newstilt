@@ -25,24 +25,16 @@ export default class CardComponent extends React.Component {
     this.setState({ result });
   };
 
-  renderHeader = (text) => {
-    return text && text.length > 30
-    ? <Text>{text.substring(0,30) + '...'}</Text>
-    : <Text>{text}</Text>
-  }
-
-  renderAuthor = (text) => {
-    return text && text.length > 30
-      ? <Text note>{text.substring(0,30) + '...'}</Text>
-      : <Text note>{text}</Text>
+  truncateText = (text) => {
+    return text.length > 30 ? text.substring(0,30) + '...' : text;
   }
 
   renderThumbnail = (imageUrl) => {
-    return imageUrl && <Thumbnail source={{uri: imageUrl}}/>
+    return <Thumbnail source={{uri: imageUrl}}/>
   }
 
   renderImageBody = (imageUrl) => {
-    return imageUrl && <Image style={{ height: 300, flex: 1 }} source={{uri: imageUrl}} />
+    return <Image style={{ height: 300, flex: 1 }} source={{uri: imageUrl}} />
   }
 
   render(){
@@ -53,8 +45,8 @@ export default class CardComponent extends React.Component {
             <Left>
               {this.renderThumbnail(content.image)}
               <Body>
-                {this.renderHeader(content.title)}
-                {this.renderAuthor(content.author)}
+                <Text>{this.truncateText(content.title)}</Text>
+                <Text note>{this.truncateText(content.author)}</Text>
               </Body>
             </Left>
           </CardItem>
