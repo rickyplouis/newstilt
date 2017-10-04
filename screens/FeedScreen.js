@@ -31,9 +31,12 @@ class FeedScreen extends React.Component {
       }
     }
 
-  renderThumbnail = (imageUrl) => {
-    let renderPath = imageUrl ? {'uri': imageUrl} : require('../assets/images/robot-dev.png')
-    return <Thumbnail square size={80} source={renderPath}  />
+  renderPath = (imageUrl) => {
+    if (imageUrl){
+      return {'uri': imageUrl}
+    } else {
+      return require('../assets/images/robot-dev.png')
+    }
   }
 
   renderArticles = () => {
@@ -47,7 +50,7 @@ class FeedScreen extends React.Component {
     const articleFeed = flattenedArray.map( (article) =>
       <CardItem key={index+= 1} button={true} onPress={ () => this._handlePressButtonAsync(article.url)}>
         <Left>
-            {this.renderThumbnail(article.urlToImage)}
+          <Thumbnail square size={80} source={this.renderPath(article.urlToImage)} />
           <Body>
             <Text> {this.truncateText(article.title)} </Text>
             <Text note> {this.truncateText(article.description)} </Text>
@@ -73,16 +76,9 @@ class FeedScreen extends React.Component {
 
   componentWillMount(){
     this.createFeed(this.props.user.influencers)
-    console.log('componentWillMount::FeedScreen');
-  }
-
-  componentDidMount(){
-    console.log('componentDidMount::FeedScreen');
   }
 
   render() {
-    console.log('render::FeedScreen');
-    console.log('second user is', this.props.user);
     return (
       <Container>
         <Content>

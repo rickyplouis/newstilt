@@ -12,17 +12,12 @@ import SignupNavButton from '../components/SignupNavButton'
 
 import { Container, Content, Form, Item, Input, Label, Button } from 'native-base';
 
-import { getQuartile } from '../controllers/rank'
-
-import { createCardArray} from '../controllers/cards'
 
 import { apiURL } from '../config/index.js'
 
 //REDUX IMPORTS
 import { connect } from 'react-redux';
 import { setUser } from '../actions/userActions'
-import { setCards } from '../actions/cardActions'
-import { setArticles } from '../actions/articleActions'
 
 class LoginScreen extends React.Component {
 
@@ -52,24 +47,12 @@ class LoginScreen extends React.Component {
     })
   }
 
-
-  createCards = (user) => {
-    console.log('input user is', user)
-    createCardArray(user).then( (cardArray) => {
-      //For the sake of speed load 3 cards per influencer
-      for (let x = 0; x < 2; x++){
-        this.props.dispatchSetCards(cardArray[x])
-      }
-    })
-  }
-
   handleSuccess = (response) => {
     response.json().then( (val) => {
       console.log('val.user is', val.user)
       Promise.all([
         this.props.navigation.navigate('Home'),
         this.updateUserState(val.user),
-        this.createCards(val.user)
       ])
     })
   }
@@ -153,16 +136,12 @@ class LoginScreen extends React.Component {
 function mapStateToProps (state) {
   return {
     user: state.user.user[0],
-    cards: state.cards.cards[0],
-    articles: state.articles.articles
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
     dispatchSetUser: (user) => dispatch(setUser(user)),
-    dispatchSetCards: (cards) => dispatch(setCards(cards)),
-    dispatchSetArticles: (articles) => dispatch(setArticles(articles))
   }
 }
 
