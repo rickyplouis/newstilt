@@ -1,9 +1,6 @@
 import { getArticles, getInfluencers} from './fetchAPI'
 import { getQuartile } from './rank'
 
-
-
-
 /**
 * Creates arrayOfCards
 * @param {Array} arrayOfArticles

@@ -54,6 +54,7 @@ class AccountScreen extends React.Component {
 
 
   render() {
+    console.log('rendering AccountScreen');
     return (
       <Container style={styles.container}>
         <Content>

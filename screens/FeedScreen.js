@@ -62,7 +62,27 @@ class FeedScreen extends React.Component {
     )
   }
 
+  createFeed = (indexArray) => {
+    var articles = [];
+    for (let index of indexArray){
+      getArticles(index).then( (articleArray) => {
+        this.props.dispatchSetArticles(articleArray);
+      })
+    }
+  }
+
+  componentWillMount(){
+    this.createFeed(this.props.user.influencers)
+    console.log('componentWillMount::FeedScreen');
+  }
+
+  componentDidMount(){
+    console.log('componentDidMount::FeedScreen');
+  }
+
   render() {
+    console.log('render::FeedScreen');
+    console.log('second user is', this.props.user);
     return (
       <Container>
         <Content>

@@ -12,8 +12,6 @@ import SignupNavButton from '../components/SignupNavButton'
 
 import { Container, Content, Form, Item, Input, Label, Button } from 'native-base';
 
-import { getArticles} from '../controllers/fetchAPI'
-
 import { getQuartile } from '../controllers/rank'
 
 import { createCardArray} from '../controllers/cards'
@@ -56,21 +54,46 @@ class LoginScreen extends React.Component {
 
 
   createCards = (user) => {
+    console.log('input user is', user)
     createCardArray(user).then( (cardArray) => {
       //For the sake of speed load 3 cards per influencer
-      for (let x = 0; x < 3; x++){
+      for (let x = 0; x < 2; x++){
         this.props.dispatchSetCards(cardArray[x])
       }
     })
   }
 
-  createFeed = (indexArray) => {
-    var articles = [];
-    for (let index of indexArray){
-      getArticles(index).then( (articleArray) => {
-        this.props.dispatchSetArticles(articleArray);
-      })
-    }
+  handleSuccess = (response) => {
+    response.json().then( (val) => {
+      console.log('val.user is', val.user)
+      Promise.all([
+        this.props.navigation.navigate('Home'),
+        this.updateUserState(val.user),
+        this.createCards(val.user)
+      ])
+    })
+  }
+
+  handleError = (response) => {
+    response.json().then( (val) => {
+      const err = val.description[0];
+      switch (err) {
+        case 'no user found':
+          this.setState({
+            email: "",
+            emailInvalid: true,
+            emailMessage: err
+          })
+          break;
+        case 'Wrong password':
+          this.setState({
+            password: "",
+            passwordInvalid: true,
+            passMessage: err
+          })
+        default:
+      }
+    })
   }
 
   login = () => {
@@ -87,45 +110,12 @@ class LoginScreen extends React.Component {
       })
     }
 
-    handleError = (response) => {
-      response.json().then( (val) => {
-        const err = val.description[0];
-        switch (err) {
-          case 'no user found':
-            this.setState({
-              email: "",
-              emailInvalid: true,
-              emailMessage: err
-            })
-            break;
-          case 'Wrong password':
-            this.setState({
-              password: "",
-              passwordInvalid: true,
-              passMessage: err
-            })
-          default:
-        }
-      })
-    }
-
-    handleSuccess = (response) => {
-      response.json().then( (val) => {
-        Promise.all([
-          this.props.navigation.navigate('Home'),
-          this.updateUserState(val.user),
-          this.createCards(val.user)
-        ]).then( () => {
-          this.createFeed(val.user.influencers)
-        })
-      })
-    }
 
     fetch( apiURL + '/login', postOptions).then( (response) => {
       if (response.status == 200){
-        handleSuccess(response);
+        this.handleSuccess(response);
       } else {
-        handleError(response);
+        this.handleError(response);
       }
     })
   }

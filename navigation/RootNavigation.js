@@ -23,9 +23,6 @@ const RootStackNavigator = StackNavigator(
     Influencers: {
       screen: InfluencerScreen
     },
-    Feed: {
-      screen: FeedScreen
-    }
   },
   {
     navigationOptions: () => ({
