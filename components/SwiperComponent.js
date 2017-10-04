@@ -16,14 +16,6 @@ import { setCards } from '../actions/cardActions'
 
 class SwiperComponent extends React.Component {
 
-  flagged = () => {
-    console.log('fakeNews!');
-  }
-
-  favorite = () => {
-    console.log('faved!');
-  }
-
   constructor(props){
     super(props);
     this.state = {
@@ -32,7 +24,6 @@ class SwiperComponent extends React.Component {
   }
 
   createCards = (user) => {
-    console.log('input user is', user)
     createCardArray(user).then( (cardArray) => {
       //For the sake of speed load 3 cards per influencer
       for (let x = 0; x < 2; x++){
@@ -110,7 +101,6 @@ class SwiperComponent extends React.Component {
 
 
   render() {
-    console.log('cards on render are', this.props.cards);
     return (
       <Container>
         <View>

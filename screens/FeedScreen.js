@@ -39,15 +39,21 @@ class FeedScreen extends React.Component {
     }
   }
 
-  renderArticles = () => {
+  reduceArticles = () => {
     //currently this.props spits out 5 arrays of articles
     //in the future need to set this.props.articles to one big array
     //rather than reduce it here but for now, yolo
-    const flattenedArray = this.props.articles.reduce( (a, b) => {
-      return a.concat(b)
+    var flattenedArray = this.props.articles.reduce( (a, b) => {
+      return a.concat(b);
     }, [])
+    return flattenedArray;
+  }
+
+  renderArticles = () => {
+    var articleArray = this.reduceArticles();
     let index = 0;
-    const articleFeed = flattenedArray.map( (article) =>
+    var finalArray = articleArray.splice(0, 10);
+    const articleFeed = finalArray.map( (article) =>
       <CardItem key={index+= 1} button={true} onPress={ () => this._handlePressButtonAsync(article.url)}>
         <Left>
           <Thumbnail square size={80} source={this.renderPath(article.urlToImage)} />

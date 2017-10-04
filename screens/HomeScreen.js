@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import { WebBrowser } from 'expo';
 
 import SwiperComponent from '../components/SwiperComponent'
 
