@@ -4,14 +4,17 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-
-import { StackNavigator } from 'react-navigation'
-import HomeScreen from './HomeScreen'
+import {
+  Container,
+  Content,
+  Form,
+  Item,
+  Input,
+  Label,
+  Button
+} from 'native-base';
 
 import SignupNavButton from '../components/SignupNavButton'
-
-import { Container, Content, Form, Item, Input, Label, Button } from 'native-base';
-
 
 import { apiURL } from '../config/index.js'
 
@@ -49,10 +52,9 @@ class LoginScreen extends React.Component {
 
   handleSuccess = (response) => {
     response.json().then( (val) => {
-      console.log('val.user is', val.user)
       Promise.all([
-        this.props.navigation.navigate('Home'),
         this.updateUserState(val.user),
+        this.props.navigation.navigate('Home'),
       ])
     })
   }
@@ -86,20 +88,14 @@ class LoginScreen extends React.Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      //make sure to serialize your JSON body
       body: JSON.stringify({
         "email": this.state.email,
         "password": this.state.password
       })
     }
 
-
     fetch( apiURL + '/login', postOptions).then( (response) => {
-      if (response.status == 200){
-        this.handleSuccess(response);
-      } else {
-        this.handleError(response);
-      }
+      return response.status == 200 ? this.handleSuccess(response) : this.handleError(response);
     })
   }
 
@@ -132,24 +128,17 @@ class LoginScreen extends React.Component {
   }
 }
 
-
-function mapStateToProps (state) {
+mapStateToProps = (state) => {
   return {
     user: state.user.user[0],
   }
 }
 
-function mapDispatchToProps (dispatch) {
+mapDispatchToProps = (dispatch) => {
   return {
     dispatchSetUser: (user) => dispatch(setUser(user)),
   }
 }
-
-const App = StackNavigator({
-  Home: {
-    screen: HomeScreen
-  }
-})
 
 const styles = StyleSheet.create({
   container: {
