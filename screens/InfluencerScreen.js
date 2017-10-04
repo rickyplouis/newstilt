@@ -11,6 +11,7 @@ import { setUser } from '../actions/userActions'
 
 import { ListItem, CheckBox, Content, Container, Text, Body } from 'native-base'
 
+import { getInfluencers } from '../controllers/fetchAPI'
 import { updateInfluencers } from '../controllers/fetchUser'
 
 class InfluencerScreen extends React.Component {
@@ -88,6 +89,15 @@ class InfluencerScreen extends React.Component {
       </Content>
     )
   }
+
+  componentWillMount(){
+    getInfluencers().then( (influencerArray) => {
+      influencerArray.map( (influencer) => {
+        this.props.dispatchSetInfluencers(influencer)
+      })
+    })
+  }
+
   render(){
     return (
       <Container style={styles.container}>

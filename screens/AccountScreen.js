@@ -5,13 +5,9 @@ import { connect }    from 'react-redux';
 import TiltSlider     from '../components/TiltSlider'
 import TiltHeader     from '../components/TiltHeader'
 
-
-import { getInfluencers } from '../controllers/fetchAPI'
-
 import InfluencerScreen from './InfluencerScreen'
 
 import { setUser } from '../actions/userActions'
-import { setInfluencers } from '../actions/influencerActions'
 
 import { Container, Content, Card, Button, CardItem, Text, Icon, Right } from 'native-base'
 
@@ -34,15 +30,6 @@ class AccountScreen extends React.Component {
 
   usingIOS = () => {
     return Platform.OS === 'ios';
-  }
-
-  goToInfluencers = () => {
-    getInfluencers().then( (influencerArray) => {
-      for (let influencer of influencerArray){
-        this.props.dispatchSetInfluencers(influencer)
-      }
-      this.props.navigation.navigate('Influencers')
-    })
   }
 
   constructor(props){
@@ -70,7 +57,7 @@ class AccountScreen extends React.Component {
             <CardItem header>
               <TiltHeader/>
             </CardItem>
-            <CardItem button onPress={this.goToInfluencers}>
+            <CardItem button onPress={ () => this.props.navigation.navigate('Influencers') }>
               <Icon active name={IconName.Preferred} />
               <Text>Influencers</Text>
               <Right>
@@ -94,7 +81,6 @@ class AccountScreen extends React.Component {
 mapDispatchToProps = (dispatch) => {
   return {
     dispatchSetUser: (user) => dispatch(setUser(user)),
-    dispatchSetInfluencers: (influencers) => dispatch(setInfluencers(influencers))
   }
 }
 
@@ -102,7 +88,6 @@ mapDispatchToProps = (dispatch) => {
 mapStateToProps = (state) => {
   return {
     user: state.user.user[state.user.user.length -1],
-    influencers: state.influencers.influencers
   }
 }
 
