@@ -105,6 +105,9 @@ class SwiperComponent extends React.Component {
             </Button>
           </Body>
           <Right>
+            <Button iconRight transparent onPress={this._showModal}>
+              <Icon button={true} name="ios-flag" style={{ color: 'red' }} />
+            </Button>
             <Modal isVisible={this.state.isModalVisible}>
               <View style={{ flex: 1 }}>
                 <Button onPress={this._hideModal}>
