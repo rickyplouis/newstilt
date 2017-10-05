@@ -104,14 +104,16 @@ class SwiperComponent extends React.Component {
               <Text>Read Article</Text>
             </Button>
           </Body>
+          <Right>
+            <Modal isVisible={this.state.isModalVisible}>
+              <View style={{ flex: 1 }}>
+                <Button onPress={this._hideModal}>
+                  <Text>Hello!</Text>
+                </Button>
+              </View>
+            </Modal>
+          </Right>
         </CardItem>
-        <Modal isVisible={this.state.isModalVisible}>
-          <View style={{ flex: 1 }}>
-            <Button onPress={this._hideModal}>              
-              <Text>Hello!</Text>
-            </Button>
-          </View>
-        </Modal>
       </Card>
     )
   }
