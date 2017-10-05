@@ -11,17 +11,22 @@ import { connect } from 'react-redux'
 import { postArticle, postTilt, putInfluencer } from '../controllers/fetchAPI'
 
 import { createCardArray} from '../controllers/cards'
-
 import { setCards } from '../actions/cardActions'
+import Modal from 'react-native-modal'
 
 class SwiperComponent extends React.Component {
 
   constructor(props){
     super(props);
     this.state = {
-      cards: [{}]
+      cards: [{}],
+      isModalVisible: false
     }
   }
+
+  _showModal = () => this.setState({ isModalVisible: true })
+
+  _hideModal = () => this.setState({ isModalVisible: false })
 
   createCards = (user) => {
     createCardArray(user).then( (cardArray) => {
@@ -87,6 +92,11 @@ class SwiperComponent extends React.Component {
           <Image style={{height: 300, flex: 1}} source={this.renderPath(content.image)}/>
         </CardItem>
         <CardItem >
+          <Left button={true}>
+            <Button iconleft transparent onPress={this._showModal}>
+              <Icon button={true} name="ios-stats" style={{ color: 'blue' }} />
+            </Button>
+          </Left>
           <Body>
             <Button block transparent onPress={ () => {
                 this._handlePressButtonAsync(content.url)
@@ -95,6 +105,13 @@ class SwiperComponent extends React.Component {
             </Button>
           </Body>
         </CardItem>
+        <Modal isVisible={this.state.isModalVisible}>
+          <View style={{ flex: 1 }}>
+            <Button onPress={this._hideModal}>              
+              <Text>Hello!</Text>
+            </Button>
+          </View>
+        </Modal>
       </Card>
     )
   }
