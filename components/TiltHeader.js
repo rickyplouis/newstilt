@@ -35,7 +35,7 @@ class TiltHeader extends React.Component {
   render(){
     return (
       <Text>
-        Adjust Tilt : { this.tiltHeader(this.props.user.tilt) }
+        Current Political Tilt : { this.tiltHeader(this.props.user.tilt) }
       </Text>
     )
   }
