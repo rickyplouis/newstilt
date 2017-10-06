@@ -34,7 +34,8 @@ class TiltSlider extends React.Component {
       this.props.dispatchSetUser({
         tilt,
         email: user.email,
-        _id: user._id
+        _id: user._id,
+        influencers: user.influencers
       })
       Promise.resolve(this.props.dispatchClearCards()).then( () => {
         this.createCards(this.props.user)
