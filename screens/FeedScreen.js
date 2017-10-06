@@ -12,6 +12,8 @@ import { setArticles } from '../actions/articleActions'
 
 import {Constants, WebBrowser} from 'expo'
 
+import FeedPicker from '../components/FeedPicker'
+
 class FeedScreen extends React.Component {
   static navigationOptions = {
     title: 'NewsFeed',
@@ -88,6 +90,7 @@ class FeedScreen extends React.Component {
     return (
       <Container>
         <Content>
+          <FeedPicker/>
           {this.renderArticles()}
         </Content>
       </Container>
