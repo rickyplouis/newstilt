@@ -6,3 +6,10 @@ export function setCards(cards) {
     cards
   };
 }
+
+export function clearCards(cards){
+  return{
+    type: types.CLEAR_CARDS,
+    cards
+  }
+}

@@ -6,6 +6,12 @@ export default function cards(state = {cards:[]}, action = {}) {
       return {
         cards: [...state.cards, action.cards]
       }
+      break;
+    case types.CLEAR_CARDS:
+      return {
+        cards: []
+      }
+      break;
     default:
       return state;
   }

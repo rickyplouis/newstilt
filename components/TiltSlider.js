@@ -6,6 +6,9 @@ import {
 
 import { connect } from 'react-redux'
 import { setUser} from '../actions/userActions'
+import { setCards, clearCards } from '../actions/cardActions'
+
+import { createCardArray} from '../controllers/cards'
 
 import { apiURL } from '../config/index'
 import { updateTilt } from '../controllers/fetchUser'
@@ -16,6 +19,15 @@ class TiltSlider extends React.Component {
     super(props);
   }
 
+  createCards = (user) => {
+    createCardArray(user).then( (cardArray) => {
+      //For the sake of speed load 3 cards per influencer
+      for (let x = 0; x < 2; x++){
+        this.props.dispatchSetCards(cardArray[x])
+      }
+    })
+  }
+
   changeTilt = (tilt) => {
     const user = this.props.user;
     updateTilt(user, tilt).then( () => {
@@ -23,6 +35,9 @@ class TiltSlider extends React.Component {
         tilt,
         email: user.email,
         _id: user._id
+      })
+      Promise.resolve(this.props.dispatchClearCards()).then( () => {
+        this.createCards(this.props.user)
       })
     })
   }
@@ -43,13 +58,16 @@ class TiltSlider extends React.Component {
 
 function mapStateToProps (state) {
   return {
-    user: state.user.user[state.user.user.length -1]
+    user: state.user.user[state.user.user.length -1],
+    cards: state.cards.cards
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    dispatchSetUser: (user) => dispatch(setUser(user))
+    dispatchSetUser: (user) => dispatch(setUser(user)),
+    dispatchClearCards: () => dispatch(clearCards()),
+    dispatchSetCards: (cards) => dispatch(setCards(cards))
   }
 }
 
