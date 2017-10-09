@@ -1,4 +1,4 @@
-function getTilt(node){
+export function getTilt(node){
   return (node.rightCount - node.leftCount)
 }
 
