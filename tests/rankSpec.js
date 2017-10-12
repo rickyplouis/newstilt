@@ -96,4 +96,31 @@ describe('RankController::', () => {
     })
   })
 
+  describe('getStdev(nodeList)', () => {
+    it('should properly return stdev of nodes', () => {
+      assert.equal(1.5811, getStdev(alsoMock))
+    })
+    it('should properly return stdev of nodes with diff dataset', () => {
+      assert.equal(3.6056, getStdev([mockData[0], mockData[1], mockData[3]]))
+    })
+    it('should handle stdev of empty array', () => {
+      assert.equal(0, getStdev([]))
+    })
+    it('should handle stdev of no inputs', () => {
+      assert.equal(0, getStdev())
+    })
+  })
+
+  describe('getQuartileLimits(nodeList)', () => {
+    it('should properly return upper and lower quartiles', () => {
+      assert.deepEqual([1.5811, 2 * 1.5811], getQuartileLimits(alsoMock, 1))
+    })
+    it('should handle quartiles of empty array', () => {
+      assert.deepEqual([-1, 1], getQuartileLimits([], 0))
+    })
+    it('should handle quartiles of no tilt input', () => {
+      assert.deepEqual([-1, 1], getQuartileLimits([]))
+    })
+  })
+
 });

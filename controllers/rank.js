@@ -36,14 +36,14 @@ export function getMean(nodeList = []){
 * @return {Number}
 */
 export function getStdev(nodeList = []){
-  let mean = getMean(nodeList),
-      listLength = nodeList.length > 1 ? nodeList.length - 1 : 1;
+  let mean = getMean(nodeList);
+  let listLength = (nodeList.length > 1) ? (nodeList.length - 1) : 1;
 
   let sumOfSquareDiff = nodeList.reduce( (sum, value) => {
     return sum + Math.pow(getTilt(value) - mean, 2);
   }, 0);
   var variance = (sumOfSquareDiff / listLength);
-  return Math.sqrt(variance);
+  return Math.sqrt(variance).toFixed(4);
 }
 
 /**
@@ -53,19 +53,19 @@ export function getStdev(nodeList = []){
 */
 
 export function getQuartileLimits(nodeList = [], tilt = 0){
-      let stdev = nodeList.length > 0 ? getStdev(nodeList) : 1;
-      switch (tilt) {
-        case -2:
-          return [-3 * stdev, -2 * stdev];
-        case -1:
-          return [-2 * stdev, -1 * stdev];
-        case 0:
-          return [-1 * stdev, stdev];
-        case 1:
-          return [stdev, stdev * 2];
-        case 2:
-          return [2 * stdev, std * 3];
-      }
+  let stdev = parseFloat(nodeList.length > 0 ? getStdev(nodeList) : 1);
+  switch (tilt) {
+    case -2:
+      return [-3 * stdev, -2 * stdev];
+    case -1:
+      return [-2 * stdev, -1 * stdev];
+    case 0:
+      return [-1 * stdev, stdev];
+    case 1:
+      return [stdev, stdev * 2];
+    case 2:
+      return [2 * stdev, stdev * 3];
+  }
 }
 
 export function getQuartile(nodeList = [], tilt){
