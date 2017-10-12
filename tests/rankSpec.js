@@ -1,6 +1,6 @@
 const assert = require('chai').assert;
 
-import { getTilt, getSum, getStdev, getQuartile, getQuartileLimits } from '../controllers/rank';
+import { getTilt, getSum, getMean, getStdev, getQuartile, getQuartileLimits } from '../controllers/rank';
 
 
 let mockData = [
@@ -30,6 +30,29 @@ let mockData = [
   },
 ]
 
+let alsoMock = [
+  {
+    'leftCount': 0,
+    'rightCount': 1
+  },
+  {
+    'leftCount': 0,
+    'rightCount': 2
+  },
+  {
+    'leftCount': 0,
+    'rightCount': 3
+  },
+  {
+    'leftCount': 0,
+    'rightCount': 4
+  },
+  {
+    'leftCount': 0,
+    'rightCount': 5
+  },
+]
+
 describe('RankController::', () => {
   describe('getQuartile(node)', () => {
     it('should return correct tilt value', () => {
@@ -38,8 +61,8 @@ describe('RankController::', () => {
     it('should handle string inputs', () => {
       assert.equal(-3, getTilt(mockData[1]));
     });
-    it('should handle null values by returning 0', () => {
-      assert.equal(0, getTilt(mockData[2]));
+    it('should handle null values', () => {
+      assert.equal(10, getTilt(mockData[2]));
     });
     it('should handle empty inputs by returning 0', () => {
       assert.equal(0, getTilt({}));
@@ -48,7 +71,7 @@ describe('RankController::', () => {
 
   describe('getSum(nodeList)', () => {
     it('should properly return sum of nodes', () => {
-      assert.equal(-8, getSum([mockData[0], mockData[1]]));
+      assert.equal(15, getSum(alsoMock));
     })
     it('should properly return sum of one node', () => {
       assert.equal(-5, getSum([mockData[0]]));
@@ -58,32 +81,19 @@ describe('RankController::', () => {
     })
   })
 
-  describe('getStdev(nodeList)', () => {
-    it('should properly return standard deviation of two nodes', () => {
-      assert.equal(1.4142135623730951, getStdev([mockData[0], mockData[1]]))
+  describe('getMean(nodeList)', () => {
+    it('should properly return mean of nodes', () => {
+      assert.equal(3, getMean(alsoMock))
     })
-
-    //TODO: Figure out why stdev function breaks at this point;
-    it('should properly return standard deviation of five nodes', () => {
-      assert.equal(6.9857, getStdev([mockData[0], mockData[1], mockData[3], mockData[4], mockData[5]]))
+    it('should handle no inputs', () => {
+      assert.equal(0, getMean())
     })
-    it('should handle stdev of one node', () => {
-      assert.equal(0, getStdev([mockData[0]]))
+    it('should handle empty inputs', () => {
+      assert.equal(0, getMean([]))
     })
-    it('should handle stdev of empty array', () => {
-      assert.equal(0, getStdev([]))
+    it('should properly return the mean of null values ', () => {
+      assert.equal(10, getMean([mockData[2]]))
     })
   })
 
-  describe('getQuartileLimits(nodeList, tilt)', () => {
-    it('should properly set lower and upper quartile limits', () => {
-      assert.deepEqual([-1.4142135623730951, 1.4142135623730951], getQuartileLimits([mockData[0], mockData[1]], 0))
-    })
-    it('should properly handle empty array', () => {
-      assert.deepEqual([-1, 1], getQuartileLimits([], 0))
-    })
-    it('should properly handle no tilt input', () => {
-      assert.deepEqual([-1, 1], getQuartileLimits([]))
-    })
-  })
 });

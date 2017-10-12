@@ -5,7 +5,7 @@
 */
 
 export function getTilt(node = {leftCount: 0, rightCount: 0}){
-  return (node.rightCount && node.leftCount) ? node.rightCount - node.leftCount : 0;
+  return (node.rightCount - node.leftCount || 0)
 }
 
 /**
@@ -14,9 +14,11 @@ export function getTilt(node = {leftCount: 0, rightCount: 0}){
 * @return {Number}
 */
 export function getSum(nodeList = []){
-  return nodeList.reduce( (sum, value) => {
-    return sum += getTilt(value);
-  }, 0)
+  var sum = 0;
+  for (let node of nodeList){
+    sum += getTilt(node);
+  }
+  return sum;
 }
 
 /**
@@ -24,8 +26,8 @@ export function getSum(nodeList = []){
 * @param {Array[Node]}
 * @return {Number}
 */
-export function getMean(nodeList){
-  return (getSum(nodeList) / nodeList.length)
+export function getMean(nodeList = []){
+  return (getSum(nodeList) / (nodeList.length || 1))
 }
 
 /**
