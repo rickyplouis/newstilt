@@ -25,7 +25,6 @@ export function getSum(nodeList = []){
 * @return {Number}
 */
 export function getMean(nodeList){
-  let sum = getSum(nodeList);
   return (getSum(nodeList) / nodeList.length)
 }
 
@@ -34,17 +33,17 @@ export function getMean(nodeList){
 * @param {Array[Node]}
 * @return {Number}
 */
-export function getStdev(nodeList){
-  let mean = getMean(nodeList)
+export function getStdev(nodeList = []){
+  let mean = getMean(nodeList),
+      listLength = nodeList.length > 1 ? nodeList.length - 1 : 1;
 
   let sumOfSquareDiff = nodeList.reduce( (sum, value) => {
     return sum + Math.pow(getTilt(value) - mean, 2);
-  }, 0)
-
-  //NOTE: Returns to three fixed decimal points because of floating point arithmetic in Math.pow
-  var variance = (Math.abs(sumOfSquareDiff / nodeList.length -1)).toFixed(3);
-  return Math.pow(variance, 0.5);
+  }, 0);
+  var variance = (sumOfSquareDiff / listLength);
+  return Math.sqrt(variance);
 }
+
 /**
 * @method makeQuartile creates upper and lower quartile limits
 * @param {Array[Node], number}

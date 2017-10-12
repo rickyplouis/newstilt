@@ -60,7 +60,16 @@ describe('RankController::', () => {
 
   describe('getStdev(nodeList)', () => {
     it('should properly return standard deviation of nodes', () => {
-      assert.equal(2.768934813244978, getStdev([mockData[0], mockData[3], mockData[4]]))
+      assert.equal(1.4142135623730951, getStdev([mockData[0], mockData[1]]))
+    })
+    it('should properly return standard deviation of nodes', () => {
+      assert.equal(6.9857, getStdev([mockData[0], mockData[1], mockData[3], mockData[4], mockData[5]]))
+    })
+    it('should handle stdev of one node', () => {
+      assert.equal(0, getStdev([mockData[0]]))
+    })
+    it('should handle stdev of empty array', () => {
+      assert.equal(0, getStdev([]))
     })
   })
 });
