@@ -1,6 +1,6 @@
 const assert = require('chai').assert;
 
-import { getTilt, getSum } from '../controllers/rank';
+import { getTilt, getSum, getStdev } from '../controllers/rank';
 
 
 let mockData = [
@@ -15,7 +15,19 @@ let mockData = [
   {
     'leftCount': null,
     'rightCount': 10
-  }
+  },
+  {
+    'leftCount': 1,
+    'rightCount': 3
+  },
+  {
+    'leftCount': 0,
+    'rightCount': -5
+  },
+  {
+    'leftCount': 20,
+    'rightCount': 3
+  },
 ]
 
 describe('RankController::', () => {
@@ -43,6 +55,12 @@ describe('RankController::', () => {
     })
     it('should handle empty arrays', () => {
       assert.equal(0, getSum([]));
+    })
+  })
+
+  describe('getStdev(nodeList)', () => {
+    it('should properly return standard deviation of nodes', () => {
+      assert.equal(2.768934813244978, getStdev([mockData[0], mockData[3], mockData[4]]))
     })
   })
 });

@@ -34,16 +34,16 @@ export function getMean(nodeList){
 * @param {Array[Node]}
 * @return {Number}
 */
-export function getStdev(nodeList, mean){
-  var sumOfSquareDiff = 0;
-  for (let node of nodeList){
-    sumOfSquareDiff += Math.pow(getTilt(node) - mean, 2)
-  }
-  var variance = (sumOfSquareDiff / nodeList.length -1)
-  //NOTE: Returns to three fixed decimal points because of floating point arithmetic in JS
-  var fixedVariance = Math.abs(variance.toFixed(3))
-  var stdev = Math.pow(fixedVariance, 0.5);
-  return stdev;
+export function getStdev(nodeList){
+  let mean = getMean(nodeList)
+
+  let sumOfSquareDiff = nodeList.reduce( (sum, value) => {
+    return sum + Math.pow(getTilt(value) - mean, 2);
+  }, 0)
+
+  //NOTE: Returns to three fixed decimal points because of floating point arithmetic in Math.pow
+  var variance = (Math.abs(sumOfSquareDiff / nodeList.length -1)).toFixed(3);
+  return Math.pow(variance, 0.5);
 }
 /**
 * @method makeQuartile creates upper and lower quartile limits
@@ -51,34 +51,20 @@ export function getStdev(nodeList, mean){
 * @return {Array[lowerQuartile, upperQuartile]}
 */
 
-export function makeQuartile(nodeList, tilt){
-      let nodesInQuartile = [],
-          mean = getMean(nodeList),
-          stdev = getStdev(nodeList, mean),
-          upperLimit,
-          lowerLimit;
+export function getQuartileLimits(nodeList, tilt){
+      let stdev = getStdev(nodeList);
       switch (tilt) {
         case -2:
-          lowerLimit = -3 * stdev;
-          upperLimit = -2 * stdev;
-          break;
+          return [-3 * stdev, -2 * stdev];
         case -1:
-          lowerLimit = -2 * stdev;
-          upperLimit = -1 * stdev;
-          break;
+          return [-2 * stdev, -1 * stdev];
         case 0:
-          lowerLimit = -1 * stdev;
-          upperLimit = stdev;
-          break;
+          return [-1 * stdev, stdev];
         case 1:
-          lowerLimit = stdev;
-          upperLimit = stdev * 2;
+          return [stdev, stdev * 2];
         case 2:
-          lowerLimit = stdev * 2;
-          upperLimit = stdev * 3
-          break;
+          return [2 * stdev, std * 3];
       }
-    return [lowerLimit, upperLimit];
 }
 
 export function getQuartile(nodeList, tilt){
