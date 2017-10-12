@@ -13,12 +13,10 @@ export function getTilt(node = {leftCount: 0, rightCount: 0}){
 * @param {Array[Node]}
 * @return {Number}
 */
-export function getSum(nodeList){
-  let acc = 0;
-  for (let node of nodeList){
-    acc += getTilt(node);
-  }
-  return acc;
+export function getSum(nodeList = []){
+  return nodeList.reduce( (sum, value) => {
+    return sum += getTilt(value);
+  }, 0)
 }
 
 /**

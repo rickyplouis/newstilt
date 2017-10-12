@@ -1,6 +1,6 @@
 const assert = require('chai').assert;
 
-import { getTilt } from '../controllers/rank';
+import { getTilt, getSum } from '../controllers/rank';
 
 
 let mockData = [
@@ -19,7 +19,7 @@ let mockData = [
 ]
 
 describe('RankController::', () => {
-  describe('getQuartile()', () => {
+  describe('getQuartile(node)', () => {
     it('should return correct tilt value', () => {
       assert.equal(-5, getTilt(mockData[0]));
     });
@@ -33,4 +33,16 @@ describe('RankController::', () => {
       assert.equal(0, getTilt({}));
     });
   });
+
+  describe('getSum(nodeList)', () => {
+    it('should properly return sum of nodes', () => {
+      assert.equal(-8, getSum([mockData[0], mockData[1]]));
+    })
+    it('should properly return sum of one node', () => {
+      assert.equal(-5, getSum([mockData[0]]));
+    })
+    it('should handle empty arrays', () => {
+      assert.equal(0, getSum([]));
+    })
+  })
 });
