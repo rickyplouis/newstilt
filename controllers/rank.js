@@ -50,8 +50,8 @@ export function getStdev(nodeList = []){
 * @return {Array[lowerQuartile, upperQuartile]}
 */
 
-export function getQuartileLimits(nodeList, tilt){
-      let stdev = getStdev(nodeList);
+export function getQuartileLimits(nodeList = [], tilt = 0){
+      let stdev = nodeList.length > 0 ? getStdev(nodeList) : 1;
       switch (tilt) {
         case -2:
           return [-3 * stdev, -2 * stdev];
@@ -66,36 +66,11 @@ export function getQuartileLimits(nodeList, tilt){
       }
 }
 
-export function getQuartile(nodeList, tilt){
+export function getQuartile(nodeList = [], tilt){
   return new Promise(function(resolve, reject) {
-    let nodesInQuartile = [],
-        mean = getMean(nodeList),
-        stdev = getStdev(nodeList, mean),
-        upperLimit,
-        lowerLimit;
-    switch (tilt) {
-      case -2:
-        lowerLimit = -3 * stdev;
-        upperLimit = -2 * stdev;
-        break;
-      case -1:
-        lowerLimit = -2 * stdev;
-        upperLimit = -1 * stdev;
-        break;
-      case 0:
-        lowerLimit = -1 * stdev;
-        upperLimit = stdev;
-        break;
-      case 1:
-        lowerLimit = stdev;
-        upperLimit = stdev * 2;
-      case 2:
-        lowerLimit = stdev * 2;
-        upperLimit = stdev * 3
-        break;
-    }
+    let quartile = getQuartileLimits(nodeList, tilt);
     for (let node of nodeList){
-      if (upperLimit >= getTilt(node) && getTilt(node) >= lowerLimit){
+      if (quartile[0] <= getTilt(node) && getTilt(node) <= quartile[1] ){
         nodesInQuartile.push(node);
       }
     }

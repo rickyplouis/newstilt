@@ -1,6 +1,6 @@
 const assert = require('chai').assert;
 
-import { getTilt, getSum, getStdev } from '../controllers/rank';
+import { getTilt, getSum, getStdev, getQuartile, getQuartileLimits } from '../controllers/rank';
 
 
 let mockData = [
@@ -62,6 +62,8 @@ describe('RankController::', () => {
     it('should properly return standard deviation of two nodes', () => {
       assert.equal(1.4142135623730951, getStdev([mockData[0], mockData[1]]))
     })
+
+    //TODO: Figure out why stdev function breaks at this point;
     it('should properly return standard deviation of five nodes', () => {
       assert.equal(6.9857, getStdev([mockData[0], mockData[1], mockData[3], mockData[4], mockData[5]]))
     })
@@ -70,6 +72,18 @@ describe('RankController::', () => {
     })
     it('should handle stdev of empty array', () => {
       assert.equal(0, getStdev([]))
+    })
+  })
+
+  describe('getQuartileLimits(nodeList, tilt)', () => {
+    it('should properly set lower and upper quartile limits', () => {
+      assert.deepEqual([-1.4142135623730951, 1.4142135623730951], getQuartileLimits([mockData[0], mockData[1]], 0))
+    })
+    it('should properly handle empty array', () => {
+      assert.deepEqual([-1, 1], getQuartileLimits([], 0))
+    })
+    it('should properly handle no tilt input', () => {
+      assert.deepEqual([-1, 1], getQuartileLimits([]))
     })
   })
 });
