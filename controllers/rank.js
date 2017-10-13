@@ -70,7 +70,9 @@ export function getQuartileLimits(nodeList = [], tilt = 0){
 
 export function getQuartile(nodeList = [], tilt){
   return new Promise(function(resolve, reject) {
-    let quartile = getQuartileLimits(nodeList, tilt);
+    let quartile = getQuartileLimits(nodeList, tilt),
+        nodesInQuartile = [];
+
     for (let node of nodeList){
       if (quartile[0] <= getTilt(node) && getTilt(node) <= quartile[1] ){
         nodesInQuartile.push(node);
