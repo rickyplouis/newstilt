@@ -121,17 +121,28 @@ class SwiperComponent extends React.Component {
     )
   }
 
+  renderDeck = () => {
+    if (this.props.cards.length > 0){
+      return (
+        <DeckSwiper
+          onSwipeLeft={(card) => this.handleSwipe(card, 'left')}
+          onSwipeRight={(card) => this.handleSwipe(card, 'right')}
+          dataSource={this.props.cards}
+          renderItem={item => this.renderCard(item)}
+        />
+      )
+    } else {
+      return (
+        <Text style={{textAlign: 'center', marginTop: '15%'}}>No cards available at the moment. Please adjust your tilt settings</Text>
+      )
+    }
+  }
 
   render() {
     return (
       <Container>
         <View>
-          <DeckSwiper
-            onSwipeLeft={(card) => this.handleSwipe(card, 'left')}
-            onSwipeRight={(card) => this.handleSwipe(card, 'right')}
-            dataSource={this.props.cards}
-            renderItem={item => this.renderCard(item)}
-          />
+          {this.renderDeck()}
         </View>
       </Container>
     );
