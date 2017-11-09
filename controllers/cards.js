@@ -20,8 +20,8 @@ export function createCards(articles) {
         "_p_influencer": article._p_influencer,
         "description": article.description,
         "publishedAt": article.publishedAt,
-        "pressedLeft": false,
-        "pressedRight": false,
+        "left": false,
+        "right": false,
         "flagged": false
       })
     }

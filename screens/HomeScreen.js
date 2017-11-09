@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 
 import CardFeed from '../components/CardFeed'
+import SwiperComponent from '../components/SwiperComponent'
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
