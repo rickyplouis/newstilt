@@ -9,7 +9,7 @@ import SwiperComponent from '../components/SwiperComponent'
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
-    title: "NewsTilt",
+    title: "Screen A",
     headerLeft: null
   };
 
@@ -21,7 +21,7 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <CardFeed/>
+        <SwiperComponent/>
       </View>
     );
   }
