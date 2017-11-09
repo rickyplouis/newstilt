@@ -19,8 +19,10 @@ export function createCards(articles) {
         "url": article.url,
         "_p_influencer": article._p_influencer,
         "description": article.description,
-        "publishedAt": article.publishedAt
-
+        "publishedAt": article.publishedAt,
+        "pressedLeft": false,
+        "pressedRight": false,
+        "flagged": false
       })
     }
     resolve(cardData);

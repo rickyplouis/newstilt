@@ -4,7 +4,7 @@ import {
   View,
 } from 'react-native';
 
-import SwiperComponent from '../components/SwiperComponent'
+import CardFeed from '../components/CardFeed'
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -20,7 +20,7 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <SwiperComponent/>
+        <CardFeed/>
       </View>
     );
   }
